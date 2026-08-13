@@ -17,12 +17,12 @@ GitHub 관리자께서는 적용하실 때 먼저 “실습 저장소에서 GitH
 
 ## 1단계 — Windows에 도구 설치
 
-GitHub 웹에서만 워크플로를 만들고 편집한다면 WSL은 필요하지 않습니다. Windows PC에서 `gh aw compile`, `gh aw run` 등 **gh-aw CLI를 사용하려면 WSL 2를 사용**합니다. 
+GitHub 웹에서만 워크플로를 만들고 편집한다면 WSL은 필요하지 않습니다. Windows PC에서 `gh aw compile`, `gh aw run` 등 **gh-aw CLI를 사용하려면 WSL 2를 사용** 합니다. 
 공식 빠른 시작의 지원 환경도 `Linux, macOS, or Windows with WSL`로 안내합니다.
 
 ### WSL 2를 써도 Windows용 SW를 만들 수 있나요?
 
-네. WSL 2는 GitHub AI 자동화 도구를 실행하기 위한 **보조 개발 환경**입니다. WSL 2를 사용한다고 해서 결과물이 Linux용 프로그램으로 바뀌지는 않습니다.
+네. WSL 2는 GitHub AI 자동화 도구를 실행하기 위한 **보조 개발 환경** 입니다. WSL 2를 사용한다고 해서 결과물이 Linux용 프로그램으로 바뀌지는 않습니다.
 
 역할을 다음과 같이 나눕니다.
 
@@ -48,7 +48,7 @@ WSL은 Windows 안에서 Linux 명령 창을 쓰게 해 주는 기능입니다. 
 ### 1-1. WSL 설치
 
 1. Windows 시작 메뉴에서 `PowerShell`을 검색합니다.
-2. **관리자 권한으로 실행**합니다.
+2. **관리자 권한으로 실행** 합니다.
 3. 아래 한 줄을 실행합니다.
 
 ```powershell
