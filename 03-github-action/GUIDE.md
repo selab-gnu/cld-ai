@@ -75,8 +75,6 @@ WSL에서 설치 결과를 확인합니다.
 gh --version
 ```
 
-버전이 보이지 않거나 2.0.0보다 낮으면 [GitHub CLI 공식 Linux 설치 안내](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)를 이용하세요.
-
 ### 1-3. GitHub 로그인
 
 Ubuntu에서 실행합니다.
@@ -216,8 +214,6 @@ ai-ready
 ai-generated
 ```
 
-오타가 있으면 AI가 허용된 라벨을 붙이지 못합니다.
-
 ## 8단계 — 첫 실습
 
 1. **Issues → New issue**를 누릅니다.
@@ -227,7 +223,7 @@ ai-generated
 5. 내용이 충분하고 AI 작업을 허용하려면 사람이 `ai-ready` 라벨을 붙입니다.
 6. `Issue to Pull Request Assistant`가 만든 PR을 엽니다.
 7. **Files changed**에서 예상한 파일만 바뀌었는지 확인합니다.
-8. 이해되지 않는 변경이 있으면 병합하지 말고 담당자에게 검토를 요청합니다.
+8. 이해되지 않는 변경이 있으면 바로 병합하지 말고 담당자에게 검토를 요청합니다.
 
 ## 9단계 — 실패했을 때
 
@@ -279,7 +275,7 @@ git push
 
 이 가이드의 이슈 분류와 초안 PR 생성 실습을 완료하면 같은 방식으로 다른 기능을 추가할 수 있습니다. GitHub 공식 [Gallery](https://github.github.com/gh-aw/index.html#gallery)와 [Agentics 예제 저장소](https://github.com/githubnext/agentics)에는 바로 참고할 수 있는 워크플로 예제 파일이 있습니다.
 
-아래 표는 **CLD 과제(STL↔STP 매칭 DB 기반 AI 활용 설계 자동화 및 제조공장 연계 솔루션 개발)**를 바이브코딩으로 진행할 때 활용할 수 있는 쉬운 예제입니다. 어떤 도움을 받을 수 있는지 중심으로 정리했습니다.
+아래 표는 **CLD 과제(STL↔STP 매칭 DB 기반 AI 활용 설계 자동화 및 제조공장 연계 솔루션 개발)**를 바이브코딩으로 진행할 때 활용할 수 있는 공식 가이드에 있는 예제입니다. 어떤 도움을 받을 수 있는지 중심으로 정리했습니다.
 
 | 확장 기능 | 공식 예제 종류 | CLD 과제 활용 예 | 주된 결과 | 권장 순서 |
 |---|---|---|---|---|
