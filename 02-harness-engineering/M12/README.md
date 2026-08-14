@@ -16,3 +16,7 @@
 ## 품질 기준
 
 동작하는 샘플 또는 재현 가능한 프롬프트가 반드시 첨부되어야 하며, 문서는 따라 하면 되는 수준이어야 한다.
+
+## 참고 자료
+- [snarktank/ralph GitHub 저장소](https://github.com/snarktank/ralph)
+- [Geoffrey Huntley의 Ralph 패턴 원문](https://ghuntley.com/ralph/)
