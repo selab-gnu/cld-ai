@@ -72,9 +72,9 @@ cp -r /tmp/ralph/skills/ralph ~/.claude/skills/
 ```
 
 ## 규칙
-> 참고: 저장소 README 기준 공식 경로는 `skills/prd`, `skills/ralph`(저장소 루트 기준)입니다. `/tmp/ralph`는 저장소를 clone한 위치이므로, 실제로는 본인이 `git clone https://github.com/snarktank/ralph /tmp/ralph`으로 받아둔 경로와 일치해야 합니다.
-> 이 스킬들은 **프로젝트별이 아니라 전역(`~/.claude/skills/`)**으로 설치됩니다. 즉 한 번 설치하면 이후 모든 프로젝트에서 재사용 가능합니다.
-> Claude Code 마켓플레이스 방식(`/plugin marketplace add snarktank/ralph` → `/plugin install ralph-skills@ralph-marketplace`)을 쓴다면 이 수동 복사는 생략해도 됩니다. 둘 중 하나만 하면 됩니다.
+- > 참고: 저장소 README 기준 공식 경로는 `skills/prd`, `skills/ralph`(저장소 루트 기준)입니다. `/tmp/ralph`는 저장소를 clone한 위치이므로, 실제로는 본인이 `git clone https://github.com/snarktank/ralph /tmp/ralph`으로 받아둔 경로와 일치해야 합니다.
+- > 이 스킬들은 **프로젝트별이 아니라 전역(`~/.claude/skills/`)**으로 설치됩니다. 즉 한 번 설치하면 이후 모든 프로젝트에서 재사용 가능합니다.
+- > Claude Code 마켓플레이스 방식(`/plugin marketplace add snarktank/ralph` → `/plugin install ralph-skills@ralph-marketplace`)을 쓴다면 이 수동 복사는 생략해도 됩니다. 둘 중 하나만 하면 됩니다.
 
 ## 산출물
 - `~/.claude/skills/prd/`
