@@ -2,6 +2,18 @@
 
 `prd.json`에 여러 작업(user story) 추가하고, 작게 쪼개기를 실행합니다. 이 때, `ralph` 스킬이 1차 변환을 해주지만, **실제로 여러 작업을 우선순위대로 처리시키려면 각 story가 "한 번에 끝낼 수 있는 크기"인지 직접 검토·조정**해야 합니다.
 
+`prd.json`에 포함되는 필드의 형태는 다음과 같다.
+
+| 필드 | 설명 |
+|---|---|
+| `id` | 고유 식별자 (`US-001`, `US-002`, ...) |
+| `title` | 짧은 제목 |
+| `description` | "As a ..., I want ... so that ..." 형식의 사용자 스토리 |
+| `acceptanceCriteria` | **검증 가능한** 완료 조건 목록. 타입체크·테스트 통과, 브라우저 검증 등 |
+| `priority` | 처리 순서 (숫자가 작을수록 먼저 처리) |
+| `passes` | 완료 여부. 새 작업은 항상 `false`로 시작 |
+| `notes` | Ralph가 실행하며 남기는 메모 (처음엔 빈 문자열) |
+
 # 0 단계: 사전 준비
 
 - [ ] Amp CLI 또는 Claude Code(`npm install -g @anthropic-ai/claude-code`)가 설치·인증되어 있음
@@ -97,14 +109,48 @@ Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
 - [ ] `prd.json`이 프로젝트 루트에 생성됨
 - [ ] `cat prd.json | jq .` 로 유효한 JSON인지 확인
 
-# 5 단계: 
+# 5 단계: `prd.json` 구조 이해하기
+공식 예제(`prd.json.example`) 기준 구조는 다음과 같습니다.
 
-## 규칙
-
-## 산출물
+```json
+{
+  "project": "MyApp",
+  "branchName": "ralph/task-priority",
+  "description": "Task Priority System - Add priority levels to tasks",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add priority field to database",
+      "description": "As a developer, I need to store task priority so it persists across sessions.",
+      "acceptanceCriteria": [
+        "Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')",
+        "Generate and run migration successfully",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Display priority indicator on task cards",
+      "description": "As a user, I want to see task priority at a glance.",
+      "acceptanceCriteria": [
+        "Each task card shows colored priority badge (red=high, yellow=medium, gray=low)",
+        "Priority visible without hovering or clicking",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
+```
 
 ## 체크리스트
-[ ] 확인한다.
+[ ] 공식 예제(`prd.json.example`) 기준 구조를 확인한다.
 
 # 6 단계: 
 
@@ -114,4 +160,23 @@ Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
 
 ## 체크리스트
 [ ] 확인한다.
+
+# 7 단계: 
+
+## 규칙
+
+## 산출물
+
+## 체크리스트
+[ ] 확인한다.
+
+# 8 단계: 
+
+## 규칙
+
+## 산출물
+
+## 체크리스트
+[ ] 확인한다.
+
 
