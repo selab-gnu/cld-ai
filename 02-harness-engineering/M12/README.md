@@ -4,7 +4,8 @@
 
 ## 목적
 
- `prd` 스킬로 PRD 작성을 AI에게 맡기고, `prd.json`에 여러 개의 작은 작업(user story)을 넣어 Ralph가 우선순위대로 자동 처리하게 만드는 방법을 배운다.
+[ralph](https://github.com/snarktank/ralph) 예제를 한 번 성공적으로 돌려본 사람이 대상이다.
+`prd` 스킬로 PRD 작성을 AI에게 맡기고, `prd.json`에 여러 개의 작은 작업(user story)을 넣어 Ralph가 우선순위대로 자동 처리하게 만드는 방법을 배운다.
 
 ## 산출물 4종 (체크리스트)
 
