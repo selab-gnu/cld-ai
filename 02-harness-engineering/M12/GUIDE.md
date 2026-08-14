@@ -2,10 +2,10 @@
 
 # 0 단계: 사전 준비
 
-[ ] Amp CLI 또는 Claude Code(`npm install -g @anthropic-ai/claude-code`)가 설치·인증되어 있음
-[ ] `jq`가 설치되어 있음 (`brew install jq`)
-[ ] 작업할 프로젝트가 git 저장소로 초기화되어 있음 (`git init` 완료, 커밋 가능한 상태)
-[ ] 이미 작은 예제로 Ralph를 1회 이상 돌려본 경험이 있음 (사용자 확인됨)
+- [ ] Amp CLI 또는 Claude Code(`npm install -g @anthropic-ai/claude-code`)가 설치·인증되어 있음
+- [ ] `jq`가 설치되어 있음 (`brew install jq`)
+- [ ] 작업할 프로젝트가 git 저장소로 초기화되어 있음 (`git init` 완료, 커밋 가능한 상태)
+- [ ] 이미 작은 예제로 Ralph를 1회 이상 돌려본 경험이 있음 (사용자 확인됨)
 
 # 1 단계: 
 
