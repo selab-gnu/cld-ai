@@ -1,5 +1,7 @@
 # 개념
 
+`prd.json`에 여러 작업(user story) 추가하고, 작게 쪼개기를 실행합니다. 이 때, `ralph` 스킬이 1차 변환을 해주지만, **실제로 여러 작업을 우선순위대로 처리시키려면 각 story가 "한 번에 끝낼 수 있는 크기"인지 직접 검토·조정**해야 합니다.
+
 # 0 단계: 사전 준비
 
 - [ ] Amp CLI 또는 Claude Code(`npm install -g @anthropic-ai/claude-code`)가 설치·인증되어 있음
