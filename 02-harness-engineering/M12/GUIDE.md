@@ -143,6 +143,12 @@ Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
 
 이 명령이 Markdown PRD를 Ralph가 읽을 수 있는 `prd.json` 형식(user stories 배열)으로 변환해줍니다.
 
+## 규칙
+> 다음처럼 프롬프트를 작성해도 된다.
+```
+Convert this to prd.json with ralph
+```
+
 ## 산출물
 - 프로젝트 루트의 `prd.json`
 
