@@ -195,6 +195,8 @@ Convert this to prd.json with ralph
   ]
 }
 ```
+## 규칙
+`prd.json`은 프로젝트 루트나 'scripts\ralph' 아래에서 찾을 수 있다.
 
 ## 체크리스트
 [ ] 공식 예제(`prd.json.example`) 기준 구조를 확인한다.
