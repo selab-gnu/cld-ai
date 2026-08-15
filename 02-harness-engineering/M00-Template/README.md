@@ -4,11 +4,7 @@
 
 ## 목적
 
-Ralph를 GitHub 이슈·PR과 연계하는 방법을 알아본다.
-
-> 대상: `prd` → `prd.json` → Ralph 실행까지 이미 해본 사람
-> 목표: `prd.json`의 user story를 GitHub 이슈로 만들고, Ralph가 완료한 작업을 PR로 열어 이슈와 자동으로 연동시키기
-
+.claude 폴더에 에이전트와 스킬을 만들어 Claude Code를 위한 하네스 엔지니어링을 만드는 방법을 배워본다.
 
 ## 산출물 4종 (체크리스트)
 
