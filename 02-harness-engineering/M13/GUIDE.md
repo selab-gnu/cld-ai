@@ -164,7 +164,18 @@ git branch
 git push -u origin ralph/작업브랜치이름
 ```
 
-### PR 생성 — 완료된 모든 이슈를 한 번에 연결하기
+`prd.json`에서 완료된 story의 `githubIssue` 번호들을 뽑아 자동으로 본문을 만들고 싶다면 AI에게 요청할 수 있습니다.
+
+Claude에서...
+```
+prd.json에서 passes: true인 story들의 githubIssue 번호를 모아서
+"Closes #N" 목록을 만들고, gh pr create 명령을 실행해줘.
+```
+
+## 규칙
+- `Closes #N`은 PR **본문(body)**에 있어야 합니다. 커밋 메시지 대신 PR 본문에 한 번만 몰아서 적어도 동일하게 작동합니다.
+- 아직 리뷰 전이라면 `--draft` 플래그로 초안 PR을 만들 수 있습니다: `gh pr create --draft ...`
+- 다음과 유사한 PR이 생성됩니다 — (예시) 완료된 모든 이슈를 한 번에 연결하기
 
 ```bash
 gh pr create \
@@ -177,17 +188,6 @@ Closes #3
 Closes #4" \
   --base main
 ```
-
-`prd.json`에서 완료된 story의 `githubIssue` 번호들을 뽑아 자동으로 본문을 만들고 싶다면 AI에게 요청할 수 있습니다.
-
-```
-prd.json에서 passes: true인 story들의 githubIssue 번호를 모아서
-"Closes #N" 목록을 만들고, gh pr create 명령을 실행해줘.
-```
-
-## 규칙
-- `Closes #N`은 PR **본문(body)**에 있어야 합니다. 커밋 메시지 대신 PR 본문에 한 번만 몰아서 적어도 동일하게 작동합니다.
-- 아직 리뷰 전이라면 `--draft` 플래그로 초안 PR을 만들 수 있습니다: `gh pr create --draft ...`
 
 ## 산출물
 - GitHub에 Pull Request 생성, 관련 이슈들과 자동 링크됨
