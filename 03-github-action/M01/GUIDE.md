@@ -211,7 +211,7 @@ gh pr create \
 실행하면 PR URL이 출력됩니다.
 
 ```
-https://github.com/내계정/my-recipe-book/pull/1
+https://github.com/내계정/my-recipe-book/pull/2
 ```
 
 ## 더 편한 방법: `--fill`
