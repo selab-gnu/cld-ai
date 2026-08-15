@@ -4,17 +4,15 @@
 
 ## 목적
 
-ADE로 좀 더 쉽게 Claude와 같은 코드 에이전트를 사용하기 위한 편집기를 배워본다.
+.claude 폴더에 에이전트와 스킬을 만들어 Claude Code를 위한 하네스 엔지니어링을 만드는 방법을 배워본다.
 
 ## 산출물 4종 (체크리스트)
 
 - [x] 가이드 — GUIDE.md 단계 목적·입력·산출물·체크리스트
 - [ ] 규칙 — CLAUDE.md 조각 (이 단계에서 AI가 지킬 규칙)
-- [ ] 자동화 — 없음
+- [x] 자동화 — 스킬· 서브에이전트
 - [x] 샘플 — SAMPLE.md 동작 스텝·프롬프트
 
-## 참고 링크
-- Orca 공식 사이트: https://www.onorca.dev
-- 첫 3-에이전트 세션 공식 가이드: https://www.onorca.dev/docs/first-session
-- 설치 가이드: https://www.onorca.dev/docs/install
-- "세 에이전트 경쟁시키기" 레시피: https://www.onorca.dev/docs/recipes/parallel-agents
+## 품질 기준
+
+동작하는 샘플 또는 재현 가능한 프롬프트가 반드시 첨부되어야 하며, 문서는 따라 하면 되는 수준이어야 한다.
