@@ -87,9 +87,14 @@ gh issue create --title "US-001: Add priority field to database" \
 
 # 3 단계: `prd.json`에 이슈 번호 기록해두기 (선택이지만 권장)
 
+Claude Code에서:
+```
+prd.json을 열어 각story에 해당하는 githubIssue 필드를 추가해 줘. 이름은 "githubIssue"로 하고 해당 번호를 붙여 줘
+```
+
 이슈 번호를 story와 연결해두면, 나중에 커밋 메시지나 PR에서 어떤 이슈를 참조해야 하는지 헷갈리지 않습니다.
 
-`prd.json`을 열어 각 story에 `githubIssue` 필드를 추가합니다.
+해당 요청은 `prd.json`을 열어 각 story에 `githubIssue` 필드를 추가합니다.
 
 ```json
 {
@@ -103,7 +108,7 @@ gh issue create --title "US-001: Add priority field to database" \
   "githubIssue": 1
 }
 ```
-
+## 규칙
 > `githubIssue` 필드는 Ralph 자체가 사용하지는 않지만(무시됨), 사람이 참조하거나 Step 6에서 PR 본문을 자동 생성할 때 활용할 수 있는 메모입니다.
 
 ## 체크리스트
