@@ -15,7 +15,7 @@
 - Claude Code CLI가 설치되어 있을 것 (터미널에서 `claude --version`으로 확인)
 - Claude API 키 또는 Claude 구독(Pro/Max/Team/Enterprise) 계정
 
-## 전체 흐름 요약 체크리스트
+## 전체 흐름 요약 
 - [ ] GitHub CLI 설치 및 로그인 완료
 - [ ] 대상 저장소 폴더에서 Claude Code 실행
 - [ ] `/install-github-app` 실행 및 인증 완료
