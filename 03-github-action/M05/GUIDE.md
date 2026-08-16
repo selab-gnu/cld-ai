@@ -164,8 +164,8 @@ Claude Code가 자동으로 브라우저를 열어 `.github/workflows/claude.yml
 ## 실행 순서
 1. 브라우저에 열린 PR 페이지 확인 (예: `github.com/myusername/todo-app/pull/12`)
 2. `Files changed` 탭에서 `.github/workflows/claude.yml` 내용 확인
-3. `Merge pull request` 버튼 클릭
-4. `Confirm merge` 클릭
+3. `Create pull request` 버튼 클릭
+4. `Merge pull request` 클릭
 
 ## 출력물 (예상 결과, PR 내 파일 예시)
 ```yaml
