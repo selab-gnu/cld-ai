@@ -1,326 +1,290 @@
-# 따라 하기: 이슈에서 PR까지
+# 개념
 
-명령어는 뜻을 외우지 않아도 됩니다. 
-회색 상자의 한 줄을 복사해 붙여 넣고, 결과를 확인한 뒤 다음 단계로 이동하세요.
+`git`은 **버전 관리**(커밋, 브랜치, 히스토리)를 담당하는 도구이고, `gh`는 **GitHub 웹사이트에서 하는 일**(저장소 생성, 이슈, PR, 리뷰, 병합)을 터미널에서 그대로 할 수 있게 해주는 도구입니다.
 
-## 0단계 — 준비물과 담당자 확인
+즉, 지금까지 브라우저에서 마우스로 클릭하던 "New Issue" 버튼, "Create Pull Request" 버튼이 전부 `gh` 명령어 한 줄로 바뀐다고 생각하면 됩니다.
 
-필요한 것:
+## `gh` 명령어의 기본 구조
 
-- GitHub 계정
-- 실습용 GitHub 저장소의 쓰기 권한
-- GitHub Actions 사용 가능 상태
-- AI 엔진 하나: GitHub Copilot, OpenAI Codex, Claude 또는 Gemini API
-- Windows 10/11 PC와 관리자 설치 권한
+```
+gh <명사> <동사> [옵션]
+```
 
-GitHub 관리자께서는 적용하실 때 먼저 “실습 저장소에서 GitHub Actions와 AI 엔진 사용이 허용되는지” 확인하세요.
+예: `gh issue create`, `gh pr list`, `gh repo clone` — 항상 "무엇을(issue, pr, repo) + 어떻게 할지(create, list, view, close)" 순서입니다. 이 규칙만 기억해도 명령어를 외우지 않고 유추할 수 있습니다.
 
-## 1단계 — Windows에 도구 설치
-
-GitHub 웹에서만 워크플로를 만들고 편집한다면 WSL은 필요하지 않습니다. Windows PC에서 `gh aw compile`, `gh aw run` 등 **gh-aw CLI를 사용하려면 WSL 2를 사용** 합니다. 
-공식 빠른 시작의 지원 환경도 `Linux, macOS, or Windows with WSL`로 안내합니다.
-
-### WSL 2를 써도 Windows용 SW를 만들 수 있나요?
-
-네. WSL 2는 GitHub AI 자동화 도구를 실행하기 위한 **보조 개발 환경** 입니다. WSL 2를 사용한다고 해서 결과물이 Linux용 프로그램으로 바뀌지는 않습니다.
-
-역할을 다음과 같이 나눕니다.
-
-| 환경 | 담당 작업 |
+| 명사 | 의미 |
 |---|---|
-| WSL 2 | Git, GitHub CLI, `gh-aw` 워크플로 작성·컴파일·실행 |
-| Windows | Visual Studio, CAD 프로그램, Windows용 SW 빌드·실행·검증 |
-| GitHub Actions | 이슈 분류와 PR 생성 등 저장소 자동화 |
+| `repo` | 저장소 |
+| `issue` | 이슈 |
+| `pr` | Pull Request |
+| `project` | 프로젝트 보드 |
 
-특히 다음 항목은 반드시 Windows에서 확인합니다.
+| 동사 | 의미 |
+|---|---|
+| `create` | 새로 만들기 |
+| `list` | 목록 보기 |
+| `view` | 상세 보기 |
+| `close` | 닫기 |
+| `merge` | 병합하기 |
+| `edit` | 수정하기 |
 
-- `.exe`, `.msi` 등 Windows 실행·설치 파일
-- .NET Windows Desktop 프로그램
-- AutoCAD, SolidWorks 등 CAD 프로그램과의 연동
-- Windows API, COM, 레지스트리를 사용하는 기능
-- 실제 CAD 프로그램을 실행해야 하는 자동 테스트
-- Windows 파일 경로, 권한과 한글 파일명 처리
+## 전체 흐름 요약 (이번에 다룬 예제 기준)
 
-> 핵심 원칙: WSL 2에서는 GitHub 자동화를 운영하고, Windows용 프로그램은 Windows에서 빌드하고 테스트합니다.
+1. `gh auth login` — 로그인
+2. `gh repo create my-recipe-book --public --source=. --remote=origin --push` — 저장소 생성 & 연결
+3. `gh issue create --title ... --body ...` — 할 일을 이슈로 등록 (`#1`)
+4. `git checkout -b ...`, 코드 수정, `git commit` — 실제 작업 (순수 git)
+5. `git push -u origin ...` — 브랜치 업로드
+6. `gh pr create --body "Closes #1"` — PR 생성 & 이슈 연결
+7. `gh pr view`, `gh pr diff` — 병합 전 검토
+8. `gh pr merge --squash --delete-branch` — 병합 → 이슈 자동 종료
+9. `gh issue list --state closed`로 최종 확인
 
-WSL은 Windows 안에서 Linux 명령 창을 쓰게 해 주는 기능입니다. 이 윈도우11에서는 **WSL 2**가 기본 버전입니다.
+이 9단계가 실무에서도 그대로 반복되는 기본 사이클입니다. 프로젝트가 무엇이든(레시피 앱, 투두 앱, Ralph로 만든 프로젝트 등) 이 흐름은 동일합니다.
 
-### 1-1. WSL 설치
-
-1. Windows 시작 메뉴에서 `PowerShell`을 검색합니다.
-2. **관리자 권한으로 실행** 합니다.
-3. 아래 한 줄을 실행합니다.
-
-```powershell
-wsl --install
-```
-
-4. 설치가 끝나면 PC를 다시 시작합니다.
-5. 시작 메뉴에서 `Ubuntu`를 열고 처음 한 번 사용자 이름과 암호를 만듭니다. 암호 입력 중 글자가 안 보여도 정상입니다.
-
-설치된 버전을 확인합니다.
-
-### 1-2. GitHub CLI 설치
-
-이제부터는 **WSL 창**에서 실행합니다. Windows PowerShell과 WSL에서 사용하는 Ubuntu 명령을 섞지 마세요.
+# 1 단계: 설치 및 로그인
 
 ```bash
-sudo apt update
-sudo apt install gh -y
-```
+# macOS
+brew install gh
 
-WSL에서 설치 결과를 확인합니다.
-
-```bash
+# 설치 확인
 gh --version
 ```
 
-### 1-3. GitHub 로그인
+```bash
+gh auth login
+```
 
-Ubuntu에서 실행합니다.
+실행하면 아래 순서로 질문이 나옵니다. 처음이라면 그대로 따라가면 됩니다.
+
+1. `What account do you want to log into?` → `GitHub.com`
+2. `What is your preferred protocol for Git operations?` → `HTTPS`
+3. `Authenticate Git with your GitHub credentials?` → `Yes`
+4. `How would you like to authenticate?` → `Login with a web browser`
+
+터미널에 8자리 코드가 뜨고, 브라우저가 자동으로 열립니다. 그 코드를 입력하면 로그인이 완료됩니다.
+
+## 규칙
+- `gh auth login`은 컴퓨터 하나당 한 번만 하면 됩니다. 이후 모든 `gh` 명령어는 별도 로그인 없이 바로 동작합니다.
+
+## 체크리스트
+- [ ] `gh auth status` 실행 시 `Logged in to github.com as [내 계정]` 표시됨
+
+
+# 2 단계:`gh repo create` — 예제 저장소 만들기
+
+이제부터 계속 사용할 예제 프로젝트 `my-recipe-book`을 만듭니다. 레시피를 정리하는 간단한 개인 프로젝트라고 가정합니다.
 
 ```bash
-gh auth login --scopes repo,workflow
+mkdir my-recipe-book && cd my-recipe-book
+git init
+echo "# My Recipe Book" > README.md
+git add README.md
+git commit -m "Initial commit"
 ```
 
-화면에서 다음을 고릅니다.
-
-1. `GitHub.com`
-2. `HTTPS`
-3. `Login with a web browser`
-4. 표시된 코드를 브라우저에 입력하고 승인
-
-로그인 확인:
+여기까지는 순수 `git` 명령어입니다. 이제 이 로컬 저장소를 GitHub에 올립니다.
 
 ```bash
-gh auth status
+gh repo create my-recipe-book --public --source=. --remote=origin --push
 ```
 
-### 1-4. gh-aw 확장 설치
+## 규칙
 
-```bash
-gh extension install github/gh-aw
-```
-
-확인:
-
-```bash
-gh aw --help
-```
-
-## 2단계 — 연습 저장소 준비
-
-GitHub 웹사이트에서 **New repository**를 눌러 비어 있는 연습 저장소를 만듭니다. 예시 이름은 `cad-ai-pr-practice`입니다.
-
-WSL에서 아래를 실행하되 `<내-GitHub-ID>`를 실제 ID로 바꿉니다.
-이떄 <>는 없어도 됩니다. 
-예) GoSeongJin이면 
-올바른 명령어 : git clone https://github.com/GoSeongJin/cad-ai-pr-practice.git
-잘못된 명령어 : git clone https://github.com/GoSeongJin/cad-ai-pr-practice.git
-
-```bash
-git clone https://github.com/<내-GitHub-ID>/cad-ai-pr-practice.git
-cd cad-ai-pr-practice
-```
-
-현재 폴더가 맞는지 확인합니다.
-
-```bash
-git status
-```
-
-`not a git repository`가 나오면 저장소 폴더 밖에 있는 것입니다. `cd cad-ai-pr-practice`를 다시 실행하세요.
-
-## 3단계 — AI 엔진 선택과 인증
-
-### 가장 쉬운 선택: GitHub Copilot
-
-Copilot 구독이 있다면 기본 엔진으로 시작할 수 있습니다.
-
-```bash
-gh aw init
-```
-
-안내에 따라 별도의 `COPILOT_GITHUB_TOKEN`을 설정합니다. 일반 `GITHUB_TOKEN`과는 다른 토큰입니다.
-
-### OpenAI Codex를 쓰는 선택
-
-```bash
-gh aw init --engine codex
-```
-
-OpenAI API 키를 GitHub 저장소의 **Settings → Secrets and variables → Actions → New repository secret**에 저장합니다.
-
-- Name: `OPENAI_API_KEY`
-- Secret: 발급받은 API 키
-
-`CODEX_API_KEY`도 사용할 수 있고, 둘 다 있으면 `CODEX_API_KEY`가 우선합니다. API 키는 채팅·이슈·문서·명령 기록에 붙여 넣지 마세요.
-
-> 다른 엔진을 쓰려면 공식 [AI 엔진 안내](https://github.github.com/gh-aw/reference/engines/)를 확인하세요. 엔진마다 필요한 비밀키가 다릅니다.
-
-## 4단계 — 두 워크플로 만들기
-
-1. 저장소에 `.github/workflows` 폴더를 만듭니다.
-2. [SAMPLE.md](SAMPLE.md)의 “샘플 1” 코드만 복사해 `.github/workflows/issue-triage.md`에 저장합니다.
-3. “샘플 2” 코드만 복사해 `.github/workflows/issue-to-pr.md`에 저장합니다.
-4. Codex를 선택했다면 두 파일의 설정 부분에 있는 주석처럼 `engine: codex`를 추가합니다. Copilot 기본값이면 생략합니다.
-
-AI에게 파일 생성을 부탁할 때는 다음 문장을 그대로 사용할 수 있습니다.
-
-```text
-SAMPLE.md의 샘플 1과 샘플 2를 각각 안내된 .github/workflows 경로에 만들어 줘.
-내용을 임의로 바꾸지 말고, 만든 파일 목록을 알려 줘.
-```
-
-## 5단계 — 검사하고 실행 파일 만들기
-
-```bash
-gh aw compile
-```
-
-성공하면 같은 폴더에 다음 파일이 생깁니다.
-
-```text
-.github/workflows/issue-triage.lock.yml
-.github/workflows/issue-to-pr.lock.yml
-```
-
-`.md`는 사람이 고치는 원본이고 `.lock.yml`은 GitHub Actions가 실행하는 자동 생성본입니다. 원본을 바꿀 때마다 다시 `gh aw compile`을 실행하고 두 종류 모두 저장해야 합니다.
-
-## 6단계 — GitHub에 올리기
-
-```bash
-git add .
-git commit -m "Add beginner AI issue-to-PR workflows"
-git push
-```
-
-GitHub 저장소의 **Actions** 탭에 워크플로가 보이면 배치가 끝난 것입니다.
-
-## 7단계 — 필요한 라벨 만들기
-
-GitHub 저장소에서 **Issues → Labels → New label**로 아래 이름을 정확히 만듭니다.
-
-```text
-bug
-feature
-question
-needs-info
-priority/p0
-priority/p1
-priority/p2
-duplicate
-ai-ready
-ai-generated
-```
-
-## 8단계 — 첫 실습
-
-1. **Issues → New issue**를 누릅니다.
-2. [SAMPLE.md](SAMPLE.md)의 연습용 이슈를 복사해 등록합니다.
-3. **Actions** 탭에서 `Issue Triage Assistant` 실행 결과를 기다립니다.
-4. AI가 붙인 종류·우선순위 라벨과 질문을 확인합니다.
-5. 내용이 충분하고 AI 작업을 허용하려면 사람이 `ai-ready` 라벨을 붙입니다.
-6. `Issue to Pull Request Assistant`가 만든 PR을 엽니다.
-7. **Files changed**에서 예상한 파일만 바뀌었는지 확인합니다.
-8. 이해되지 않는 변경이 있으면 바로 병합하지 말고 담당자에게 검토를 요청합니다.
-
-## 9단계 — 실패했을 때
-
-| 화면/메시지 | 확인할 것 |
+| 옵션 | 의미 |
 |---|---|
-| 워크플로가 안 보임 | `.lock.yml`도 push했는지, Actions가 켜졌는지 |
-| 인증 오류 | 선택한 엔진의 Secret 이름과 값 |
-| 라벨을 못 붙임 | 라벨 이름이 SAMPLE과 정확히 같은지 |
-| PR 대신 이슈가 생김 | 조직이 Actions의 PR 생성을 막았는지 |
-| compile 오류 | 들여쓰기, `---` 두 줄, 파일 확장자 `.md` |
-| 실행 비용이 걱정됨 | 실행 횟수를 줄이고 `max-ai-credits` 값을 낮게 시작 |
+| `my-recipe-book` | 만들 저장소 이름 |
+| `--public` | 공개 저장소로 생성 (비공개는 `--private`) |
+| `--source=.` | 현재 폴더(`.`)의 내용을 저장소 소스로 사용 |
+| `--remote=origin` | 원격 저장소 이름을 `origin`으로 등록 (`git remote add origin ...`을 자동으로 해줌) |
+| `--push` | 로컬의 현재 브랜치를 즉시 GitHub로 push |
 
-PR 생성이 조직 정책으로 차단되면 `create-pull-request`는 기본적으로 변경 제안을 이슈로 남길 수 있습니다. 관리자가 허용할 때까지 우회하지 마세요.
+## 산출물
+- GitHub 웹사이트에 `my-recipe-book` 저장소 생성됨
+- 로컬 `git remote -v`에 `origin`이 등록됨
 
-상태 확인 명령:
+## 체크리스트
+- [ ] `gh repo view --web` 실행 시 방금 만든 저장소가 브라우저에서 열림
+- [ ] `git remote -v`에 `origin https://github.com/...`이 표시됨
 
-```bash
-gh aw status
-```
 
-원본을 수정한 뒤에는 항상:
+# 3 단계: `gh issue create` — 할 일을 이슈로 등록하기
 
-```bash
-gh aw compile
-git add .
-git commit -m "Update AI workflow"
-git push
-```
-
-## 운영 전 체크리스트
-
-- [ ] 실제 도면과 고객 정보가 없는 연습 저장소에서 검증했다.
-- [ ] AI가 쓸 수 있는 동작이 `safe-outputs`에 한정되어 있다.
-- [ ] `ai-ready`는 사람이 확인한 뒤에만 붙인다.
-- [ ] 자동 병합을 사용하지 않는다.
-- [ ] PR마다 사람이 **Files changed**를 확인한다.
-- [ ] API 키를 GitHub Secret에만 저장했다.
-- [ ] 비용과 실행 기록을 정기적으로 확인할 담당자를 정했다.
-
-## 참고 문서
-
-- [GitHub 공식: Creating Workflows](https://github.github.com/gh-aw/setup/creating-workflows/)
-- [GitHub 공식: Gallery](https://github.github.com/gh-aw/index.html#gallery)
-- [GitHub 공식: Quick Start](https://github.github.com/gh-aw/setup/quick-start/)
-- [GitHub 공식: AI Issue Triage](https://github.github.com/gh-aw/guides/ai-issue-triage/)
-- [GitHub 공식: Safe Outputs](https://github.github.com/gh-aw/reference/safe-outputs/)
-
-## 다음 단계 — 다른 자동화로 확장하기
-
-이 가이드의 이슈 분류와 초안 PR 생성 실습을 완료하면 같은 방식으로 다른 기능을 추가할 수 있습니다. GitHub 공식 [Gallery](https://github.github.com/gh-aw/index.html#gallery)와 [Agentics 예제 저장소](https://github.com/githubnext/agentics)에는 바로 참고할 수 있는 워크플로 예제 파일이 있습니다.
-
-아래 표는 **CLD 과제(STL↔STP 매칭 DB 기반 AI 활용 설계 자동화 및 제조공장 연계 솔루션 개발)**를 바이브코딩으로 진행할 때 활용할 수 있는 공식 가이드에 있는 예제입니다. 어떤 도움을 받을 수 있는지 중심으로 정리했습니다.
-
-| 확장 기능 | 공식 예제 종류 | CLD 과제 활용 예 | 주된 결과 | 권장 순서 |
-|---|---|---|---|---|
-| PR 자동 검토 | Automated PR Review, PR Nitpick Reviewer | 코드 변경에서 빠진 검사 항목이나 실수 찾기 | PR 댓글·리뷰 | 1 |
-| 일일·주간 현황 | Daily Repo Status, Weekly Issue Activity | 관련 이슈와 PR의 진행 상황 요약 | 보고서 이슈 | 1 |
-| 문서 최신화 | Documentation Updater, Glossary Maintainer | 설명서와 용어집에서 오래된 내용 찾기 | 문서 PR | 2 |
-| 링크 검사 | Link Checker | 문서에 있는 깨진 링크 찾기 | 보고서 또는 수정 PR | 2 |
-| 오류 원인 분석 | CI Doctor, Log Watcher | 자동 검사에 실패한 이유를 쉽게 요약 | 이슈·PR 댓글 | 2 |
-| 테스트 개선 | Daily Test Improver | 코드에서 시험이 부족한 기능 찾기 | 테스트 PR | 3 |
-| 코드 정리 | Code Simplifier, Duplicate Code Detector | 복잡하거나 반복되는 코드를 찾아 정리 제안 | 분석 보고서·PR | 3 |
-| 전체 품질 점검 | Repository Quality Improver | 코드·문서·테스트 상태를 한 번에 점검 | 정기 보고서·PR | 3 |
-| 작업 나누기 | Plan Command, Repo Ask, PR Fix | 큰 이슈를 작고 실행 가능한 작업으로 나누기 | 이슈·PR 응답 | 3 |
-| 여러 저장소 관리 | Multi-Repository, Feature Synchronization | 여러 저장소에서 함께 바꿔야 할 내용 추적 | 교차 저장소 이슈·PR | 4 |
-| 보안 검사 | Daily Malicious Code Scan | 의심스러운 코드 변경이나 위험 요소 찾기 | 보안 보고서 | 4 |
-| 비용 확인 | Cost Tracker, Metrics & Analytics | AI 자동화 사용량과 비용 확인 | 비용·운영 보고서 | 운영 시 |
-
-### 확장할 때 지킬 순서
-
-새 예제는 곧바로 실제 업무 저장소에 넣지 않습니다.
-
-1. Gallery에서 목적과 가장 가까운 예제를 고릅니다.
-2. 예제의 `.md` 원본을 별도 연습 저장소에 추가합니다.
-3. 트리거가 언제 실행되는지 확인합니다.
-4. `permissions`가 필요한 읽기 권한만 갖는지 확인합니다.
-5. `safe-outputs`가 만들 수 있는 이슈, 댓글, PR의 범위를 확인합니다.
-6. 회사 라벨명, 문서명과 업무 규칙에 맞게 자연어 지시를 수정합니다.
-7. `max-ai-credits`를 낮게 설정해 소규모로 시험합니다.
-8. `gh aw compile`에 성공한 `.md`와 `.lock.yml`을 함께 올립니다.
-9. 공개된 가상 데이터로 결과를 확인하고 담당자의 승인을 받습니다.
-10. 실제 업무에는 한 번에 기능 하나씩 추가합니다.
-
-> Gallery의 예제 파일은 출발점입니다. 회사의 보안 정책, Windows 빌드 환경, CAD 제품의 라이선스와 실제 승인 절차를 반영한 뒤 사용해야 하며, 예제라는 이유만으로 업무 검증이 완료된 것은 아닙니다.
-
-### 예제 가져오기
-
-대화형 설치 마법사를 지원하는 예제는 저장소 루트에서 다음 형식으로 추가할 수 있습니다.
+레시피 앱에 "재료 목록에 수량 표시 기능"을 추가하고 싶다고 가정합니다. 코드를 짜기 전에, 먼저 이슈로 등록해봅니다.
 
 ```bash
-gh aw add-wizard githubnext/agentics/<워크플로-이름>
+gh issue create \
+  --title "Add quantity display to ingredient list" \
+  --body "Each ingredient in a recipe should show its quantity (e.g. '2 cups flour') instead of just the name."
 ```
 
-예를 들어 이슈 분류 공식 스타터는 다음과 같습니다.
+실행하면 터미널에 다음과 비슷한 결과가 나옵니다.
+
+```
+https://github.com/내계정/my-recipe-book/issues/1
+```
+
+**이 `1`이라는 번호를 기억해두세요.** 이후 계속 이 번호로 이슈를 참조합니다.
+
+## 규칙
+
+| 옵션 | 의미 |
+|---|---|
+| `--title` | 이슈 제목 |
+| `--body` | 이슈 본문(상세 설명) |
+
+`--title`, `--body`를 생략하고 그냥 `gh issue create`만 입력하면, 터미널이 대화형으로 하나씩 물어봅니다. 처음엔 이 방식이 더 편할 수 있습니다.
+
+
+## 산출물
+- 이슈 `#1` 생성됨
+
+### 이슈 목록/상세 확인하기
 
 ```bash
-gh aw add-wizard githubnext/agentics/issue-triage
+gh issue list          # 열려 있는 이슈 목록
+gh issue view 1        # 1번 이슈 상세 내용
+gh issue view 1 --web  # 브라우저로 1번 이슈 열기
 ```
 
-예제 이름과 설치 가능 여부는 버전에 따라 달라질 수 있으므로 실행 전 [Agentics의 최신 목록](https://github.com/githubnext/agentics)을 확인하세요. 추가 후 생성된 원본과 권한을 검토하고 `gh aw compile`로 다시 검사합니다.
+## 체크리스트
+- [ ] `gh issue list`에 방금 만든 이슈가 `#1`로 표시됨
+
+
+# 4 단계: 실제 작업하기 (브랜치 → 수정 → 커밋)
+
+이 단계는 `git` 명령어이고, 다음 Step에서 `gh`로 이어집니다.
+
+```bash
+git checkout -b add-quantity-display
+
+mkdir -p src
+cat > src/ingredient.md << 'EOF'
+# Ingredient Display Format
+
+- 2 cups flour
+- 1 tsp salt
+- 3 eggs
+EOF
+
+git add src/ingredient.md
+git commit -m "Add quantity display to ingredient list"
+```
+
+## 체크리스트
+- [ ] `git branch`로 `add-quantity-display` 브랜치에 있는지 확인
+- [ ] `git log --oneline -1`로 방금 커밋이 보임
+
+
+# 5 단계: `git push` — 브랜치를 GitHub에 올리기
+
+```bash
+git push -u origin add-quantity-display
+```
+
+`-u`(`--set-upstream`)는 이 브랜치를 앞으로 `origin`의 같은 이름 브랜치와 연결하겠다는 의미입니다. 한 번 설정해두면 다음부터는 그냥 `git push`만 입력해도 됩니다.
+
+## 체크리스트
+- [ ] 터미널에 `remote: Create a pull request for 'add-quantity-display' on GitHub by visiting: ...` 메시지가 표시됨 (아직 클릭할 필요 없음, Step 6에서 명령어로 만들 것)
+
+
+# 6 단계: `gh pr create` — Pull Request 만들고 이슈와 연결하기
+
+```bash
+gh pr create \
+  --title "Add quantity display to ingredient list" \
+  --body "Closes #1" \
+  --base main
+```
+
+## 규칙
+
+| 옵션 | 의미 |
+|---|---|
+| `--title` | PR 제목 |
+| `--body "Closes #1"` | PR 본문. `Closes #번호`라고 쓰면 이 PR이 병합될 때 **1번 이슈가 자동으로 닫힙니다** |
+| `--base main` | 이 브랜치를 어떤 브랜치에 합칠지 지정 (기본값이 `main`이면 생략 가능) |
+
+`Closes` 대신 `Fixes`, `Resolves`도 같은 역할을 합니다.
+
+실행하면 PR URL이 출력됩니다.
+
+```
+https://github.com/내계정/my-recipe-book/pull/2
+```
+
+## 더 편한 방법: `--fill`
+
+커밋 메시지를 그대로 PR 제목/본문으로 채우고 싶다면:
+
+```bash
+gh pr create --fill --body "Closes #1"
+```
+
+## 산출물
+- Pull Request `#1` 생성, 이슈 `#1`과 연결됨
+
+## 체크리스트
+- [ ] `gh pr view --web` 실행 시 PR 페이지 우측에 "Linked issues"로 `#1`이 표시됨
+
+# 7 단계: `gh pr view`, `gh pr diff` — PR 내용 확인하기
+
+병합하기 전에 무엇이 바뀌었는지 확인하는 습관을 들이면 좋습니다.
+
+```bash
+gh pr view          # 현재 브랜치의 PR 요약 정보
+gh pr diff           # 실제 코드 변경 내용(diff) 확인
+gh pr checks          # CI 체크 결과 확인 (설정되어 있다면)
+```
+
+## 체크리스트
+- [ ] `gh pr diff`로 `src/ingredient.md`가 새로 추가된 것이 보임
+
+# 8 단계:`gh pr merge` — 병합하고 이슈 자동 종료 확인하기
+
+```bash
+gh pr merge --squash --delete-branch
+```
+
+## 규칙
+
+| 옵션 | 의미 |
+|---|---|
+| `--squash` | 이 브랜치의 여러 커밋을 하나로 합쳐서 `main`에 병합 (히스토리 깔끔하게 유지) |
+| `--delete-branch` | 병합 후 로컬·원격의 `add-quantity-display` 브랜치를 자동 삭제 |
+
+다른 병합 방식:
+- `--merge`: 병합 커밋을 만들며 그대로 합침 (히스토리 전부 보존)
+- `--rebase`: 커밋들을 재정렬해서 일직선으로 합침
+
+## 산출물
+
+```bash
+gh issue list --state closed
+```
+
+`Closes #1`이 정상적으로 처리되어 방금 이슈가 `closed` 상태로 나타납니다.
+
+## 체크리스트
+- [ ] `gh issue view 1`에서 상태가 `Closed`로 표시됨
+- [ ] `git branch`에 `add-quantity-display`가 더 이상 보이지 않음 (`--delete-branch` 효과)
+- [ ] `git checkout main && git pull`로 최신 상태 반영
+
+# 자주 쓰는 `gh` 명령어 모아보기 (치트시트)
+
+| 상황 | 명령어 |
+|---|---|
+| 남의 저장소를 내 컴퓨터로 복제 | `gh repo clone owner/repo` |
+| 열려 있는 이슈만 필터링해서 보기 | `gh issue list --state open` |
+| 특정 사람이 만든 이슈만 보기 | `gh issue list --author username` |
+| 이슈에 라벨 붙이기 | `gh issue edit 1 --add-label bug` |
+| PR에 리뷰어 지정하기 | `gh pr edit 1 --add-reviewer username` |
+| 내 계정에 할당된 이슈만 보기 | `gh issue list --assignee @me` |
+| 저장소를 브라우저로 바로 열기 | `gh repo view --web` |
+| 어떤 이슈/PR이든 브라우저로 열기 | `gh issue view 1 --web` / `gh pr view 1 --web` |
+
+## 공통 팁
+- 대부분의 `gh` 하위 명령어에 **`--web` 옵션**을 붙이면 터미널 대신 브라우저로 바로 열립니다. 명령어가 헷갈릴 때 임시방편으로 유용합니다.
+- 옵션 없이 `gh issue create`, `gh pr create`처럼 명령어만 입력하면 **대화형 모드**로 하나씩 물어봐줍니다. 옵션을 다 외우지 않아도 괜찮습니다.
+- `gh <명사> --help`로 각 명령어의 전체 옵션을 언제든 확인할 수 있습니다. 예: `gh issue create --help`
