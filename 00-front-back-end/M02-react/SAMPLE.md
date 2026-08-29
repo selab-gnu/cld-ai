@@ -1,17 +1,6 @@
 # 예제 실행 및 프롬프트
 
-## 1단계: 커밋할 변경 만들기
-
-GUIDE.md의 1~7단계를 따라 `my-counter-app` 프로젝트를 생성하고, `src/App.jsx`와 `src/Counter.jsx` 파일을 최종 코드로 작성합니다.
-
-변경이 끝나면 아래처럼 Git으로 기록해 둡니다.
-```bash
-git init
-git add .
-git commit -m "React 카운터 앱 튜토리얼 완성"
-```
-
-## 2단계: 개발 서버 실행
+## 1단계: 개발 서버 실행
 
 터미널에서 프로젝트 폴더로 이동한 뒤 개발 서버를 실행합니다.
 ```bash
@@ -24,7 +13,7 @@ npm run dev
 Local:   http://localhost:5173/
 ```
 
-## 3단계: 브라우저에서 결과 확인
+## 2단계: 브라우저에서 결과 확인
 
 브라우저에서 `http://localhost:5173/` 주소로 접속합니다.
 
