@@ -39,7 +39,7 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
 ## 산출물
 - 다음 명령어로 생성된 Vite 프로젝트 폴더
   ```bash
-  npm create vite@latest my-vite-app -- --template vanilla
+  npm create vite@latest my-vite-app --template vanilla
   cd my-vite-app
   npm install
   ```
@@ -84,7 +84,7 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
   ```bash
   npm run dev
   ```
-- `main.js`에 아래 코드를 추가해 화면에 글자를 표시
+- `main.js`의 마지막 위치에 아래 코드를 추가해 화면에 글자를 표시
   ```javascript
   document.querySelector('#app').innerHTML = `
     <h1>Hello Vite!</h1>
