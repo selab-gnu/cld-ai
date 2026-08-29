@@ -25,8 +25,8 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
   ```
 
 ## 체크리스트
-[ ] `node -v` 명령으로 Node.js 버전을 확인한다.
-[ ] `npm -v` 명령으로 npm 버전을 확인한다.
+- [ ] `node -v` 명령으로 Node.js 버전을 확인한다.
+- [ ] `npm -v` 명령으로 npm 버전을 확인한다.
 
 
 # 2 단계: Vite 프로젝트 생성하기
@@ -46,9 +46,9 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
 - `my-vite-app` 폴더와 그 안의 기본 파일들 (`index.html`, `main.js`, `style.css`, `vite.config.js` 등)
 
 ## 체크리스트
-[ ] `npm create vite@latest` 명령으로 vanilla 템플릿 프로젝트를 생성한다.
-[ ] `cd`로 프로젝트 폴더에 들어간다.
-[ ] `npm install`로 패키지를 설치한다.
+- [ ] `npm create vite@latest` 명령으로 vanilla 템플릿 프로젝트를 생성한다.
+- [ ] `cd`로 프로젝트 폴더에 들어간다.
+- [ ] `npm install`로 패키지를 설치한다.
 
 
 # 3 단계: 프로젝트 구조 살펴보기
