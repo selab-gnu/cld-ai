@@ -12,17 +12,16 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
 
 # 1 단계: 개발 환경 준비하기
 
-## 규칙
-- Node.js(18 버전 이상 권장)가 설치되어 있어야 합니다.
-- 터미널에서 `node -v`, `npm -v` 명령어로 설치 여부를 먼저 확인합니다.
-- 프로젝트 이름은 영어 소문자와 하이픈만 사용합니다. (예: `my-vite-app`)
-
-## 산출물
-- Node.js와 npm이 설치되어 명령어가 정상 동작하는 상태
+- Node.js와 npm이 설치되어 명령어가 정상 동작하는 상태를 확인한다.
   ```bash
   node -v
   npm -v
   ```
+  
+## 규칙
+- Node.js(18 버전 이상 권장)가 설치되어 있어야 합니다.
+- 터미널에서 `node -v`, `npm -v` 명령어로 설치 여부를 먼저 확인합니다.
+- 프로젝트 이름은 영어 소문자와 하이픈만 사용합니다. (예: `my-vite-app`)
 
 ## 체크리스트
 - [ ] `node -v` 명령으로 Node.js 버전을 확인한다.
@@ -31,18 +30,20 @@ Vite(비트, 프랑스어로 "빠르다")는 프론트엔드 프로젝트를 개
 
 # 2 단계: Vite 프로젝트 생성하기
 
+- 다음 명령어로 생성된 Vite 프로젝트 폴더를 확인한다.
+  ```bash
+  npm create vite@latest my-vite-app -- --template vanilla
+  cd my-vite-app
+  npm install
+  ```
+
 ## 규칙
 - `npm create vite@latest` 명령으로 새 프로젝트를 만듭니다.
 - 템플릿 선택 시 React가 아닌 **Vanilla(순수 자바스크립트)**를 선택합니다. (Vite 자체 동작에만 집중하기 위해서입니다.)
 - 프로젝트 생성 후에는 반드시 `npm install`로 필요한 패키지를 설치해야 실행할 수 있습니다.
+- `-- ` 심볼은 npm에게 “이 뒤의 옵션은 npm 옵션이 아니라, 실행되는 Vite 쪽에 전달해라”라는 의미로 필요합니다.
 
 ## 산출물
-- 다음 명령어로 생성된 Vite 프로젝트 폴더
-  ```bash
-  npm create vite@latest my-vite-app --template vanilla
-  cd my-vite-app
-  npm install
-  ```
 - `my-vite-app` 폴더와 그 안의 기본 파일들 (`index.html`, `main.js`, `style.css`, `vite.config.js` 등)
 
 ## 체크리스트
