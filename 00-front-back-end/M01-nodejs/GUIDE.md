@@ -108,7 +108,7 @@ $ node app.js
 
 ```bash
 npm init -y
-npm install chalk
+npm install chalk@4
 ```
 `app.js`
 ```javascript
