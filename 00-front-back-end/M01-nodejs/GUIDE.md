@@ -106,12 +106,6 @@ $ node app.js
 
 # 4 단계: npm과 패키지 관리
 
-## 규칙
-- `npm init`으로 프로젝트를 초기화하고 `package.json`을 생성한다.
-- 외부 패키지는 `npm install 패키지명`으로 설치하며, `node_modules`는 직접 수정하지 않는다.
-- `package.json`의 `dependencies`와 `scripts` 항목의 역할을 이해한다.
-
-## 산출물
 ```bash
 npm init -y
 npm install chalk
@@ -121,6 +115,13 @@ npm install chalk
 const chalk = require("chalk");
 console.log(chalk.green("설치 성공!"));
 ```
+
+## 규칙
+- `npm init`으로 프로젝트를 초기화하고 `package.json`을 생성한다.
+- 외부 패키지는 `npm install 패키지명`으로 설치하며, `node_modules`는 직접 수정하지 않는다.
+- `package.json`의 `dependencies`와 `scripts` 항목의 역할을 이해한다.
+
+## 산출물
 - 생성된 `package.json`, `package-lock.json`, `node_modules/`.
 
 ## 체크리스트
