@@ -238,6 +238,18 @@ $ node promise-read.js
 파일 내용: 안녕하세요, Node.js!
 ```
 
+실행:
+```bash
+$ node promise-chain.js
+1차 읽기: 안녕하세요, Node.js!
+
+2차 읽기: 안녕하세요, Node.js!
+
+3차 읽기: 안녕하세요, Node.js!
+
+모든 읽기 완료!
+```
+
 ## 체크포인트
 - [ ] `promise-read.js`를 실행해서 콜백 버전과 결과가 같은지 확인했다.
 - [ ] `promise-chain.js`를 실행해서 콜백 지옥 코드와 비교했을 때 어떤 점이 더 읽기 쉬운지 느껴봤다.
