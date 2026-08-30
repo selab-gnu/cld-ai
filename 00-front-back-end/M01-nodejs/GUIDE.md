@@ -95,7 +95,7 @@ console.log(math.add(2, 3)); // 5
 ## 산출물
 ```bash
 $ node app.js
-Hello, Node.js!
+5
 ```
 
 ## 체크리스트
