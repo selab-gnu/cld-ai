@@ -28,18 +28,17 @@
 
 # 1 단계: 설치 및 개발 환경 준비
 
-## 규칙
-- 공식 사이트(nodejs.org)의 LTS(장기 지원) 버전을 설치한다.
-- 설치 후 반드시 터미널에서 버전을 확인해 정상 설치를 검증한다.
-- 코드 편집기(VS Code 등)를 함께 준비한다.
-
-## 산출물
 ```bash
 node -v
 npm -v
 ```
 - 위 두 명령어가 정상적으로 버전을 출력하는 터미널 화면.
 - 작업용 폴더(예: `node-tutorial/`) 생성 완료.
+
+## 규칙
+- 공식 사이트(nodejs.org)의 LTS(장기 지원) 버전을 설치한다.
+- 설치 후 반드시 터미널에서 버전을 확인해 정상 설치를 검증한다.
+- 코드 편집기(VS Code 등)를 함께 준비한다.
 
 ## 체크리스트
 - [ ] `node -v` 명령이 버전을 출력한다.
@@ -49,17 +48,17 @@ npm -v
 
 # 2 단계: 첫 번째 프로그램 실행 (Hello World)
 
+다음과 같이 `hello.js` 파일을 만든다.
+```javascript
+console.log("Hello, Node.js!");
+```
+
 ## 규칙
 - `.js` 확장자 파일에 코드를 작성한다.
 - `node 파일명.js` 명령으로 실행한다.
 - `console.log()`로 출력 결과를 눈으로 확인하는 습관을 들인다.
 
 ## 산출물
-`hello.js`
-```javascript
-console.log("Hello, Node.js!");
-```
-실행 결과:
 ```bash
 $ node hello.js
 Hello, Node.js!
@@ -73,12 +72,7 @@ Hello, Node.js!
 
 # 3 단계: 모듈 시스템 이해하기 (require / module.exports)
 
-## 규칙
-- Node.js는 파일 단위로 코드를 나누는 모듈 시스템을 기본 제공한다.
-- 다른 파일의 기능을 쓰려면 `require()`로 불러오고, 공개하려면 `module.exports`로 내보낸다.
-- 내장 모듈(`fs`, `path`, `os` 등)과 직접 만든 모듈을 구분해서 이해한다.
-
-## 산출물
+다음과 같이 `math.js` 파일과 `app.js`를 만든다.
 `math.js`
 ```javascript
 function add(a, b) {
@@ -90,6 +84,18 @@ module.exports = { add };
 ```javascript
 const math = require("./math");
 console.log(math.add(2, 3)); // 5
+```
+
+## 규칙
+- Node.js는 파일 단위로 코드를 나누는 모듈 시스템을 기본 제공한다.
+- 모듈을 공개하려면 `module.exports`로 내보낸다.
+- 다른 파일의 기능을 쓰려면 `require()`로 불러온다. 
+- 내장 모듈(`fs`, `path`, `os` 등)과 직접 만든 모듈을 구분해서 이해한다.
+
+## 산출물
+```bash
+$ node app.js
+Hello, Node.js!
 ```
 
 ## 체크리스트
