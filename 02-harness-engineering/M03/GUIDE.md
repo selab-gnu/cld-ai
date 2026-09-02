@@ -1,116 +1,107 @@
 # 개념
 
-**Research Assistant 하네스**는 Claude Code 안에서 **학술 연구 보조 전문가 5명이 팀으로 협업**하도록 미리 설정해 놓은 구성 파일 묶음입니다.
+Claude Code 훅은 세션 진행 중 특정 시점(도구 실행 전/후, 세션 시작, Claude가 응답을 마쳤을 때 등)에 자동으로 실행되는 셸 명령어다. `settings.json`이라는 설정 파일 안에 등록하며, `/hooks` 명령어로 등록된 훅 목록을 확인할 수 있다.
 
-"문헌 리뷰 해줘"라고 한 마디만 하면, 아래 5명의 에이전트가 순서대로(일부는 동시에) 일합니다.
-
-| 에이전트 | 하는 일 |
-|---------|--------|
-| 🔍 literature-searcher | 논문·서적·보고서를 웹에서 검색하고 관련성 평가 |
-| 📝 note-taker | 문헌별로 구조화된 읽기 메모 작성 (핵심 논지, 방법론, 인용 구절) |
-| 🧠 critic-synthesizer | 비판적 분석, 테마별 종합, 연구 갭(gap) 식별 |
-| 📚 reference-manager | APA/MLA/Chicago 등 인용 형식 관리, BibTeX 생성 |
-| ✅ research-coordinator | 전체 결과물 교차 검증 후 최종 보고서 작성 |
-
-최종적으로 `_workspace/` 폴더에 **문헌 검색 결과 → 읽기 메모 → 비평·종합 → 참고문헌 → 최종 연구 보고서** 5개의 마크다운 파일이 만들어집니다.
-
-> ⚠️ **범위 참고**: 실험 수행, 통계 분석 실행, 논문 최종 집필, 학술지 투고는 이 하네스의 범위가 아닙니다. "연구 준비 단계"를 도와주는 도구입니다.
-
-# 1 단계:환경 설정
-
-1. **Claude Code 설치** — 터미널에서 실행되는 Anthropic의 AI 코딩 도구입니다.
-
-   ```bash
-   npm install -g @anthropic-ai/claude-code
-   ```
-
-   > Node.js 18 이상이 필요합니다. 설치 여부는 `node -v`로 확인하세요.
-   > 설치 후 터미널에서 `claude`를 입력하면 로그인 안내가 나옵니다 (Claude Pro/Max 구독 또는 API 키 필요).
-
-2. **Git 설치** (하네스 다운로드용) — `git --version`으로 확인. 없다면 [git-scm.com](https://git-scm.com)에서 설치하거나, 아래 4단계의 "Git 없이 받기" 방법을 사용하세요.
-
-## 규칙 및 산출물
-
-특정 규칙과 산출물은 없습니다. 
-
-## 체크리스트
-[ ] 필요한 프로그램이 다 설치되었는지 확인한다.
-
-# 2 단계: 작업 폴더 만들기
-
-연구 자료가 저장될 폴더를 하나 만듭니다. 
-
-```bash
-mkdir my-research
-cd my-research
-```
+# 1 단계: 훅 설정 파일 위치 이해하기
 
 ## 규칙
-
-폴더 이름은 자유롭게 작성 가능합니다. 하지만 에이전트에서 해당 폴더명을 참조할 수도 있습니다.
+- `~/.claude/settings.json` — 내 컴퓨터의 모든 프로젝트에 적용 (개인용)
+- `.claude/settings.json` — 특정 프로젝트에만 적용, 팀과 공유 가능 (git에 커밋 가능)
+- `.claude/settings.local.json` — 특정 프로젝트에만 적용, 공유하지 않음 (git에서 제외됨)
+- 이번 튜토리얼은 개인 설정인 `~/.claude/settings.json`을 사용한다
 
 ## 산출물
+- 어떤 설정 파일을 쓸지 결정
 
-```bash
-my-research
-```
 ## 체크리스트
-[ ] 폴더명이 만들어졌는지 확인한다.
+[ ] `~/.claude/settings.json` 파일이 있는지 확인했다 (없으면 새로 만들면 된다).
+[ ] 세 가지 설정 파일의 차이를 이해했다.
 
-# 3 단계: 참조 깃허브 싸이트에서 하네스 다운로드받기
-
-### 방법 A — Git으로 받기 (권장)
-
-저장소 전체가 아니라 필요한 하네스 하나만 가볍게 받아옵니다.
-
-```bash
-# 1) 임시 폴더에 저장소를 얕게 클론
-git clone --depth 1 https://github.com/revfactory/harness-100.git /tmp/harness-100
-
-# 2) research-assistant 하네스의 .claude 폴더를 내 프로젝트로 복사
-cp -r /tmp/harness-100/ko/63-research-assistant/.claude ./
-
-# 3) 임시 폴더 정리 (선택)
-rm -rf /tmp/harness-100
-```
-
-### 방법 B — Git 없이 받기
-
-1. 브라우저에서 https://github.com/revfactory/harness-100 접속
-2. 초록색 **Code** 버튼 → **Download ZIP** 클릭
-3. 압축을 풀고 `ko/63-research-assistant/` 안에 있는 **`.claude` 폴더**를 내 작업 폴더(`my-research/`)로 복사
-
-> 💡 `.claude`는 점(.)으로 시작하는 **숨김 폴더**입니다. 파일 탐색기에서 안 보이면 "숨김 파일 표시"를 켜세요 (macOS: `Cmd+Shift+.`).
-
-### 잘 복사됐는지 확인
-
-```bash
-ls -R .claude
-```
+# 2 단계: 가장 간단한 훅 — 알림(Notification) 훅 등록하기
 
 ## 규칙
-
-참조 깃허브 싸이트에 있는 내용을 그대로 받아오는 작업으로, 특별한 규칙이 없습니다.
+- `~/.claude/settings.json`을 열고 (없으면 새로 생성) `hooks` 블록을 추가한다
+- `Notification` 이벤트는 Claude가 사용자의 입력이나 승인을 기다릴 때 발생한다
+- 운영체제에 맞는 명령어를 사용한다 (SAMPLE.md에 macOS/Linux/Windows 전체 코드 있음)
+- 파일에 이미 `hooks` 키가 있다면, 기존 이벤트 옆에 `Notification`을 형제 항목으로 추가한다 (통째로 덮어쓰지 않는다)
 
 ## 산출물
-
-아래와 같은 구조가 보이면 성공입니다. 내가 만든 폴더 아래에 다음이 보여야 합니다.
-
-```
-.claude/
-├── CLAUDE.md
-├── agents/
-│   ├── literature-searcher.md
-│   ├── note-taker.md
-│   ├── critic-synthesizer.md
-│   ├── reference-manager.md
-│   └── research-coordinator.md
-└── skills/
-    ├── research-assistant/skill.md          ← 오케스트레이터(팀 지휘자)
-    ├── systematic-review-protocol/skill.md  ← PRISMA·PICO·Boolean 검색 지원
-    └── citation-formatter/skill.md          ← APA/MLA/Chicago·BibTeX 변환
-```
+- `Notification` 훅이 등록된 `~/.claude/settings.json`
 
 ## 체크리스트
-[ ] 내가 만든 폴더명이 존재하는지 확인한다.
-[ ] 특정 선택한 하네스가 내가 만든 폴더명 아래 존재하는지 확인한다.
+[ ] JSON 문법 오류 없이 파일이 저장됐다 (쉼표, 괄호 확인).
+[ ] 파일 위치가 정확히 `~/.claude/settings.json`이다.
+
+# 3 단계: `/hooks` 명령어로 등록 확인하기
+
+## 규칙
+- Claude Code 실행 중 `/hooks`를 입력한다
+- 이벤트 목록이 뜨고, 훅이 등록된 이벤트 옆에 개수가 표시된다
+- `Notification`을 선택하면 이벤트, matcher, 타입, 명령어 내용을 확인할 수 있다
+- `/hooks` 메뉴는 읽기 전용이다 — 수정하려면 설정 파일을 직접 고치거나 Claude에게 수정을 요청해야 한다
+
+## 산출물
+- `/hooks` 화면에서 확인되는 `Notification` 훅 1개
+
+## 체크리스트
+[ ] `/hooks` 메뉴에 `Notification` 항목이 보인다.
+[ ] 항목을 선택하면 내가 입력한 명령어가 그대로 보인다.
+
+# 4 단계: 훅 실제로 테스트해보기
+
+## 규칙
+- `Esc`를 눌러 CLI로 돌아온다
+- `Shift+Tab`을 눌러 상태바에 `⏸ manual mode on`이 표시될 때까지 권한 모드를 전환한다
+- Claude에게 승인이 필요한 작업(예: 파일 삭제, 명령어 실행)을 요청한다
+- 터미널 창에서 다른 창으로 전환한다 → 데스크톱 알림이 뜨는지 확인한다
+
+## 산출물
+- 실제로 뜨는 데스크톱 알림
+
+## 체크리스트
+[ ] Claude가 입력을 기다릴 때 알림이 뜬다.
+[ ] 알림이 안 뜨면 SAMPLE.md의 "알림이 안 뜰 때" 항목을 확인했다.
+
+# 5 단계: (심화) 파일 저장 시 자동 포맷팅 훅 추가하기
+
+## 규칙
+- 이번엔 `PostToolUse` 이벤트를 사용한다 — 도구 실행이 끝난 뒤에 실행된다
+- `matcher`를 `"Edit|Write"`로 지정해 파일을 수정/생성하는 도구를 쓸 때만 실행되게 한다
+- `jq`로 수정된 파일 경로를 추출해 `prettier`로 포맷팅한다 (SAMPLE.md 코드 참고)
+- 이 훅은 프로젝트 단위로 공유하는 게 자연스러우므로 `.claude/settings.json` (프로젝트 폴더 안)에 추가한다
+
+## 산출물
+- `.claude/settings.json`에 등록된 `PostToolUse` 훅
+
+## 체크리스트
+[ ] `jq`가 설치되어 있다 (`jq --version`으로 확인).
+[ ] Claude에게 JS 파일에 작은따옴표 문자열을 추가해달라고 하면, 저장 후 큰따옴표로 자동 변환된다.
+
+# 6 단계: 훅이 왜 안 되는지 확인하는 방법(디버깅)
+
+## 규칙
+- `/hooks`를 열어 이벤트 아래에 훅이 실제로 등록되어 있는지 다시 확인한다
+- matcher 철자가 도구 이름과 정확히 일치하는지 확인한다 (대소문자 구분)
+- 스크립트 파일이라면 실행 권한이 있는지 확인한다: `chmod +x 파일경로`
+- 그래도 안 되면 `claude --debug` 또는 세션 중 `/debug`로 상세 로그를 확인한다
+
+## 산출물
+- 정상 동작하거나, 원인이 파악된 훅
+
+## 체크리스트
+[ ] `/hooks` 메뉴에 훅이 정상적으로 나타난다.
+[ ] 훅 스크립트를 터미널에서 직접 실행해 에러가 없는지 확인했다 (SAMPLE.md 테스트 명령 참고).
+
+# 7 단계: 보안 주의사항 확인하기
+
+## 규칙
+- 훅은 내 컴퓨터 권한과 자격 증명으로 자동 실행되는 코드다 — 등록하기 전에 반드시 내용을 검토한다
+- 다른 사람이 만든 훅 스크립트를 그대로 복사해서 쓰지 않는다 (출처를 알 수 없으면 특히 주의)
+- 팀과 공유하는 `.claude/settings.json`에 훅을 추가할 때는 팀원 모두가 내용을 확인하게 한다
+
+## 산출물
+- 검토를 마친 훅 설정
+
+## 체크리스트
+[ ] 내가 등록한 훅의 명령어 내용을 한 줄씩 이해하고 있다.
+[ ] 민감한 자격 증명(API 키 등)을 훅 명령어에 평문으로 넣지 않았다.

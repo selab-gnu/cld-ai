@@ -1,92 +1,127 @@
 # 예제 실행 및 프롬프트
 
-## 1단계: Claude Code CLI를 실행
+GUIDE.md의 1단계를 마쳤다면(설정 파일 위치 이해), 아래 코드를 그대로 사용하면 된다.
 
-작업 폴더 안에서 Claude Code를 시작합니다.
+## 1단계: 알림(Notification) 훅 — `~/.claude/settings.json`
+
+운영체제에 맞는 탭의 코드를 그대로 복사해서 넣는다.
+
+### macOS
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Linux
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' 'Claude Code needs your attention'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Windows (PowerShell)
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -Command \"[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Claude Code needs your attention', 'Claude Code')\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+`matcher`를 빈 문자열로 두면 모든 알림 상황에서 실행된다. 특정 상황에만 반응하게 하려면 `permission_prompt`(승인 대기), `idle_prompt`(60초간 응답 없음) 등의 값을 넣으면 된다.
+
+## 2단계: 등록 확인 및 테스트
+
+```
+/hooks
+```
+
+목록에서 `Notification`을 선택해 내가 등록한 명령어가 그대로 보이는지 확인한다. 이후 `Esc` → `Shift+Tab`으로 수동 모드로 전환하고, Claude에게 승인이 필요한 작업을 시킨 뒤 다른 창으로 전환해본다.
+
+## 3단계: (심화) 파일 저장 시 자동 포맷팅 훅 — `.claude/settings.json` (프로젝트 폴더)
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | xargs npx prettier --write"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+테스트 방법: Claude에게 "JS 파일에 작은따옴표로 된 문자열 한 줄을 추가해줘"라고 요청한 뒤 파일을 열어본다. Prettier 기본 설정에서는 작은따옴표가 큰따옴표로 자동 변환된다.
+
+## 4단계: 훅을 직접 만들지 말고 Claude에게 시키는 방법
+
+훅의 JSON 문법이 헷갈린다면, 아래처럼 자연어로 요청하면 Claude Code가 대신 작성해준다.
+
+> "`.env` 파일을 Claude가 절대 수정하지 못하게 막는 PreToolUse 훅을 만들어줘. 차단됐을 때는 왜 막혔는지 이유도 알려줘."
+
+> "Bash 도구로 실행되는 모든 명령어를 `~/.claude/command-log.txt`에 기록하는 훅을 등록해줘."
+
+## 5단계: 훅 스크립트를 터미널에서 직접 테스트하는 방법
+
+훅이 스크립트 파일(`.sh`)이라면, Claude Code를 거치지 않고 아래처럼 가짜 입력을 흘려보내 직접 테스트할 수 있다.
 
 ```bash
-cd my-research   # 아직 안에 있지 않다면
-claude
-```
-Claude Code가 켜지면 `.claude/` 폴더의 설정을 자동으로 읽어들입니다. 별도의 활성화 명령은 필요 없습니다.
-
-## 2단계: 문헌 리뷰 요청하기
-
-Claude Code 프롬프트에 자연어로 요청하면 됩니다. 처음이라면 아래 예시를 그대로 복사해서 넣어보세요.
-
-```
-'대규모 언어 모델의 환각(hallucination) 완화 기법'에 대한 문헌 리뷰를 해줘. APA 형식으로.
+echo '{"tool_name":"Bash","tool_input":{"command":"ls"}}' | ./my-hook.sh
+echo $?   # 종료 코드 확인 (0=문제없음, 2=차단)
 ```
 
-또는 스킬 이름으로 직접 호출할 수도 있습니다.
+## 6단계: 알림이 안 뜰 때 (macOS 기준)
 
-```
-/research-assistant 원격 근무가 팀 생산성에 미치는 영향에 대한 선행 연구를 분석해줘
-```
+`osascript`는 Script Editor 앱을 통해 알림을 보내는데, 이 앱에 알림 권한이 없으면 조용히 실패한다.
 
-### 요청할 때 함께 알려주면 좋은 것 (선택사항)
+1. 터미널에서 한 번 실행: `osascript -e 'display notification "test"'`
+2. 시스템 설정 → 알림 → Script Editor를 찾아 "알림 허용"을 켠다
+3. 다시 실행해서 알림이 뜨는지 확인한다
 
-- **연구 목적**: 논문 작성용인지, 발표용인지, 보고서용인지
-- **인용 형식**: APA, MLA, Chicago 등 (말 안 하면 APA 7판 적용)
-- **범위 제한**: 기간(예: 최근 5년), 언어, 분야, 문헌 수
-- **기존 자료**: 이미 모아둔 논문 목록이나 메모가 있다면 함께 제공
+## 7단계: 문제가 생겼을 때 물어보는 방법
 
-예시:
+> "`~/.claude/settings.json`에 Notification 훅을 넣었는데 /hooks에 안 보여. 내 설정 파일 내용은 다음과 같아: [여기에 JSON 붙여넣기]. 뭐가 잘못됐을까?"
 
-```
-'청소년 SNS 사용과 자존감의 관계'를 문헌 리뷰해줘.
-최근 5년 이내 연구 위주로, 한국어·영어 문헌 모두 포함, MLA 형식으로.
-석사 논문 서론에 쓸 예정이야.
-```
-
-### 실행 중 화면에서 보이는 것
-
-에이전트들이 차례로 투입되며 진행 상황이 표시됩니다. 웹 검색을 많이 하기 때문에 **수 분 이상 걸릴 수 있습니다**. 중간에 Claude가 권한 승인(웹 검색, 파일 쓰기 등)을 물어보면 **y** 또는 Enter로 허용해 주세요.
-
-## 3단계: 결과물 확인하기
-
-작업이 끝나면 프로젝트 루트에 `_workspace/` 폴더가 생기고, 다음 파일들이 들어 있습니다.
-
-| 파일 | 내용 | 이렇게 활용하세요 |
-|------|------|------------------|
-| `00_input.md` | 내 요청 사항 정리 | 요청이 제대로 전달됐는지 확인 |
-| `01_literature_search.md` | 검색 전략(검색어·데이터베이스)과 문헌 목록(핵심/보조/배경 분류) | 어떤 논문을 읽을지 우선순위 파악 |
-| `02_reading_notes.md` | 문헌별 구조화 메모 — 연구 질문, 방법론, 주요 발견, 인용 구절 | 논문을 다 읽기 전 빠른 참조용 |
-| `03_critical_synthesis.md` | 테마별 종합, 상반된 결과 분석, 연구 갭 | 문헌 리뷰 챕터의 뼈대로 사용 |
-| `04_bibliography.md` | 요청한 형식의 참고문헌 목록 + 본문 인용 표기 + BibTeX | 논문·보고서에 그대로 붙여넣기 |
-| `05_research_summary.md` | 전 과정 요약, 품질 검증 결과, 후속 조치 제안 | 다음에 뭘 할지 로드맵 |
-
-파일은 일반 마크다운이므로 VS Code, Obsidian, Typora 등 어디서든 열 수 있습니다.
-
-> ⚠️ **중요**: AI가 검색·정리한 결과이므로 **인용 전 반드시 원문을 직접 확인**하세요. 특히 "전문 미확인" 표시가 붙은 문헌은 초록만 보고 정리된 것입니다.
-
-## 4단계: 상황별로 사용하기
-
-전체 파이프라인을 매번 돌릴 필요는 없습니다. 요청 문구에 따라 필요한 에이전트만 투입됩니다.
-
-| 이렇게 말하면 | 실행되는 모드 | 투입 에이전트 |
-|--------------|-------------|-------------|
-| "문헌 리뷰 해줘", "선행 연구 분석해줘" | 풀 파이프라인 | 5명 전원 |
-| "논문 검색만 해줘" | 검색 모드 | searcher + reference-manager |
-| "이 논문들 정리해줘" (목록 제공) | 메모 모드 | note-taker + synthesizer + reference-manager |
-| "참고문헌 APA를 MLA로 바꿔줘" | 서지 모드 | reference-manager 단독 |
-| "이 문헌들 종합 분석해줘" | 종합 모드 | synthesizer + coordinator |
-
-### 이미 모아둔 논문이 있을 때
-
-논문 목록(제목·저자·연도, 가능하면 DOI나 URL)을 메시지에 붙여넣으면 검색 단계를 건너뛰고 메모·종합부터 시작합니다.
-
-```
-아래 5편의 논문을 정리하고 종합 분석해줘. Chicago 형식으로.
-
-1. Smith, J. (2023). ...
-2. Kim, H. (2024). ...
-...
-```
-## 5단계: 추가 활용
-
-- **인용 형식 나중에 바꾸기**: "04_bibliography.md를 IEEE 형식으로 다시 만들어줘"라고 하면 reference-manager가 단독으로 변환합니다.
-- **Zotero/Mendeley 연동**: "BibTeX 파일로 내보내줘"라고 요청하면 `.bib` 파일을 만들어 참고문헌 관리 프로그램에서 가져올 수 있습니다.
-- **체계적 문헌 고찰(SR)**: "PRISMA 방식으로 체계적 문헌 고찰 프로토콜을 세워줘"라고 하면 내장된 `systematic-review-protocol` 스킬이 PICO 검색식과 포함/제외 기준을 함께 설계해 줍니다.
-- **이어서 작업하기**: `_workspace/`의 파일들은 그대로 남으므로, 다음 세션에서 "지난번 종합 분석에 논문 3편을 추가해줘"처럼 이어서 요청할 수 있습니다.
-- **다른 하네스 구경하기**: harness-100에는 논문 지도(58-thesis-advisor), 지식 관리(64-knowledge-base-builder) 등 100개의 하네스가 있습니다. 같은 방식(`.claude` 폴더 복사)으로 사용합니다.
+> "PostToolUse 훅을 등록했는데 파일이 포맷팅이 안 돼. jq는 설치돼 있어. 원인을 어떻게 찾아야 할까?"
