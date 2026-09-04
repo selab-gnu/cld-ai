@@ -4,7 +4,8 @@ Firebase는 구글이 제공하는 백엔드 서비스 모음이다. 그중 Clou
 
 # 1 단계: Firebase 프로젝트 만들기
 - https://console.firebase.google.com 접속 → 구글 계정으로 로그인
-- "프로젝트 추가"(Add project) 클릭 → 프로젝트 이름(예: my-todo-app) 입력
+- "프로젝트 추가"(Add project) 클릭 : "Get Started by setting up a Firebse project" 버튼이 보이면 이를 누르면 됨. 
+- 프로젝트 이름(예: my-todo-app) 입력 후 "Continue" 버튼 클릭
 
 ## 규칙
 - Google Analytics는 이 예제에서는 필요 없으므로 꺼도 된다
