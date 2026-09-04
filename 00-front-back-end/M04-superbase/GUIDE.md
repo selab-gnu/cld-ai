@@ -13,7 +13,7 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 - 프로젝트가 준비되는 데 1~2분 정도 걸린다
 
 ## 산출물
-- 생성된 Supabase 프로젝트 (URL 형태: `https://xxxxx.supabase.co`)
+- 생성된 Supabase 프로젝트 
 
 ## 체크리스트
 - [ ] 프로젝트 상태가 "Active"로 표시된다.
@@ -21,7 +21,6 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 
 # 2 단계: 테이블 만들기 (todos)
 
-## 규칙
 - 왼쪽 메뉴에서 "Table Editor" 클릭
 - "New table" 클릭 → 이름: `todos`
 - 컬럼 추가:
@@ -30,6 +29,9 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
   - `is_done` — type: bool, Default Value: false
   - `created_at` (기본 제공)
 - "Save" 클릭해서 테이블 생성
+
+## 규칙
+
 
 ## 산출물
 - `todos` 테이블 (컬럼: id, task, is_done, created_at)
