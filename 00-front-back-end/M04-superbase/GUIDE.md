@@ -49,11 +49,11 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 - 이 두 값(Project URL, key)은 SAMPLE.md에서 그대로 사용한다
 
 ## 산출물
-- Project URL, anon key 값
+- Project URL, Publishable key (또는 anon key) 값
 
 ## 체크리스트
-- [ ] Project URL을 확인했다.
-- [ ] anon public key를 확인했다.
+- [ ] Data API 탭에서 Project URL을 확인했다.
+- [ ] API Keys 탭에서 Publishable key(또는 anon key)를 확인했다.
 
 # 4 단계: 브라우저에서 바로 열리는 예제 페이지 준비하기
 
