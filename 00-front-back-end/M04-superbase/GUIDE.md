@@ -22,7 +22,7 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 # 2 단계: 테이블 만들기 (todos)
 
 - 왼쪽 메뉴에서 "Table Editor" 클릭
-- "New table" 클릭 → 이름: `todos`
+- "New table" 클릭 혹은 "Create a table" 클릭 → 이름: `todos`
 - 컬럼 추가:
   - `id` (기본 제공, 자동 증가)
   - `task` — type: text
