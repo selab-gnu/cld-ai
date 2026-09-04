@@ -121,7 +121,6 @@ Hook 설계표
 | 이벤트 | 매처 | 액션 | 목적 |
 |---|---|---|---|
 | PostToolUse | Edit, Write | `black todo.py` | 코드 스타일 자동 통일 |
-| PostToolUse | Edit, Write | `python todo.py list` | 수정 직후 자동으로 동작 확인 |
 | PreToolUse | Bash | `todo.json` 삭제/덮어쓰기 명령 차단 | 데이터 유실 방지 |
 
 ## 체크리스트
