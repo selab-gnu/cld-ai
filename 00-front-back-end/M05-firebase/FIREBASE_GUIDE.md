@@ -19,12 +19,14 @@ Firebase는 구글이 제공하는 백엔드 서비스 모음이다. 그중 Clou
 - [ ] 프로젝트 이름을 메모장에 저장했다.
 
 # 2 단계: Cloud Firestore 데이터베이스 만들기
-
-## 규칙
 - 왼쪽 메뉴에서 "Databases & Storage" → "Firestore" 클릭
 - "데이터베이스 만들기"(Create database) 클릭
 - 위치(Location)는 가까운 지역으로 선택 (예: asia-northeast3, 서울)
-- 보안 규칙은 우선 "테스트 모드로 시작"(Start in test mode)을 선택한다 — 이 모드는 일정 기간 동안 모두에게 읽기/쓰기를 허용하므로 학습용으로만 사용한다
+- 보안 규칙은 우선 "테스트 모드로 시작"(Start in test mode)을 선택한다
+- "Create" 클릭
+
+## 규칙
+— 테스트 모드는 일정 기간 동안 모두에게 읽기/쓰기를 허용하므로 학습용으로만 사용한다
 
 ## 산출물
 - 생성된 Firestore 데이터베이스
