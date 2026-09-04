@@ -101,7 +101,7 @@ todo-app/
 ```
 
 ## 체크리스트
-- [ ] `CLAUDE.md`가 프로젝트 루트에 있다.
+- [ ] `CLAUDE.md`가 프로젝트 루트 혹은 프로젝트 루트 하에 '.claude' 폴더 아래에 있다.
 - [ ] Claude Code 새 세션에서 `CLAUDE.md` 내용을 인식하는지 확인했다.
 
 ---
