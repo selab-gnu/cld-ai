@@ -37,9 +37,14 @@ Firebase는 구글이 제공하는 백엔드 서비스 모음이다. 그중 Clou
 
 # 3 단계: 웹 앱 등록하고 설정 정보(firebaseConfig) 확인하기
 
+- 왼쪽 메뉴 상단의 설정(톱니바퀴) 아이콘 클릭 → "Project settings" 선택
+- General 탭 화면을 아래로 스크롤하면 "Your apps" 카드가 보임
+- 아직 등록된 앱이 없으므로 플랫폼 아이콘(웹, iOS, Android)이 줄지어 있음 → 웹을 나타내는 "</>" 모양 아이콘 클릭
+- 앱 닉네임 입력 (예: todo-web) → Firebase Hosting 설정 체크박스는 체크하지 않고 그대로 둠 → "앱 등록(Register app)" 클릭
+- 화면에 표시되는 firebaseConfig 객체(apiKey, authDomain, projectId 등)를 통째로 복사해 메모장에 저장
+  → "콘솔로 이동(Continue to console)" 클릭
+
 ## 규칙
-- 프로젝트 개요 화면에서 `</>`(웹) 아이콘 클릭해 웹 앱 등록
-- 앱 닉네임 입력 (예: todo-web) 후 "앱 등록" 클릭
 - "Firebase Hosting 설정"은 건너뛰어도 된다
 - 화면에 표시되는 `firebaseConfig` 객체(apiKey, projectId 등)를 통째로 복사해 메모장에 저장한다
 - 이 값은 SAMPLE.md에서 그대로 사용한다
