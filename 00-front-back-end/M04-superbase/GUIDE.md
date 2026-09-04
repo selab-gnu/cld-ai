@@ -30,9 +30,6 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
   - `created_at` (기본 제공)
 - "Save" 클릭해서 테이블 생성
 
-## 규칙
-
-
 ## 산출물
 - `todos` 테이블 (컬럼: id, task, is_done, created_at)
 
@@ -42,10 +39,14 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 
 # 3 단계: API 키와 URL 확인하기
 
+- 왼쪽 메뉴에서 설정(톱니바퀴) 아이콘 클릭 → "Project Settings" 선택
+- 왼쪽 하위 메뉴에서 "Data API" 클릭 → 상단에 보이는 "Project URL" 값을 복사해 메모장에 저장 (https://xxxxx.supabase.co 형태)
+- 같은 Project Settings 안에서 "API Keys" 클릭
+- 새 프로젝트라면 "Publishable key"가 보임 → 이 값을 복사 (기존 anon key와 같은 역할, 클라이언트 코드에 그대로 사용 가능)
+
 ## 규칙
-- 왼쪽 메뉴 "Project Settings" → "API" 클릭
-- "Project URL"과 "anon public" 키 값을 복사해 메모장에 저장
-- 이 두 값은 SAMPLE.md에서 그대로 사용한다
+- 만약 예전 방식의 anon 키가 필요하다면 "Legacy API Keys" 탭에서 확인 가능 (이 튜토리얼은 Publishable key든 Legacy anon key든 상관없이 동일하게 동작)
+- 이 두 값(Project URL, key)은 SAMPLE.md에서 그대로 사용한다
 
 ## 산출물
 - Project URL, anon key 값
