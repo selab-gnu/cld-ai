@@ -182,7 +182,7 @@ Hook 설계표
         "hooks": [
           {
             "type": "command",
-            "command": "grep -qE 'rm .*todo\\.json|> *todo\\.json' <<< \"$CLAUDE_TOOL_INPUT\" && { echo '차단됨: todo.json을 직접 삭제/덮어쓸 수 없습니다.'; exit 1; } || exit 0"
+            "command": "cmd=$(jq -r '.tool_input.command // \"\"'); grep -qE 'rm .*todo\\.json|> *todo\\.json' <<< \"$cmd\" && { echo '차단됨: todo.json을 직접 삭제/덮어쓸 수 없습니다.' >&2; exit 2; }; exit 0"
           }
         ]
       }
