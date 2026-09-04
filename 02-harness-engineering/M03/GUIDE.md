@@ -141,10 +141,10 @@ Hook 설계표
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|Bash",
         "hooks": [
           { "type": "command", "command": "black todo.py" },
-          { "type": "command", "command": "python todo.py list" }
+          { "type": "command", "command": "python3 todo.py list" }
         ]
       }
     ]
