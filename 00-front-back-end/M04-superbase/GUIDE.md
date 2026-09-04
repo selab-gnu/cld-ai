@@ -40,7 +40,7 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 # 3 단계: API 키와 URL 확인하기
 
 - 왼쪽 메뉴에서 설정(톱니바퀴) 아이콘 클릭 → "Project Settings" 선택
-- 왼쪽 하위 메뉴에서 "Data API" 클릭 → 상단에 보이는 "Project URL" 값을 복사해 메모장에 저장 (https://xxxxx.supabase.co 형태)
+- 왼쪽 하위 메뉴에서 "Data API" 클릭 → 상단에 보이는 "API URL" 값을 복사해 메모장에 저장 (https://xxxxx.supabase.co 형태)
 - 같은 Project Settings 안에서 "API Keys" 클릭
 - 새 프로젝트라면 "Publishable key"가 보임 → 이 값을 복사 (기존 anon key와 같은 역할, 클라이언트 코드에 그대로 사용 가능)
 
