@@ -4,10 +4,12 @@ Supabase는 "오픈소스 Firebase 대안"이라고 불리는 백엔드 서비�
 
 # 1 단계: Supabase 계정 만들고 프로젝트 생성하기
 
-## 규칙
 - https://supabase.com 접속 → "Start your project" 클릭
 - GitHub 계정 또는 이메일로 회원가입
+- "New Organization" 클릭, 디폴트 조직 이름에 "Create orgaization"을 클릭
 - "New Project" 클릭 → Project name(예: my-todo-app), Database Password(반드시 별도로 메모), Region(가까운 지역, 예: Northeast Asia (Seoul)) 입력 후 생성
+
+## 규칙
 - 프로젝트가 준비되는 데 1~2분 정도 걸린다
 
 ## 산출물
