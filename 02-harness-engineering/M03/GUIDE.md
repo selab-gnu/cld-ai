@@ -146,8 +146,11 @@ Hook 설계표
       {
         "matcher": "Edit|Write|Bash",
         "hooks": [
-          { "type": "command", "command": "black todo.py" },
-          { "type": "command", "command": "python3 todo.py list" }
+          {
+            "type": "command",
+            "command": "out=$(black todo.py 2>&1 | tr '\\n' ' '); jq -n --arg m \"$out\" '{systemMessage:(\"🖤 black todo.py → \"+$m), hookSpecificOutput:{hookEventName:\"PostToolUse\", additionalContext:(\"[hook] black todo.py → \"+$m)}}'",
+            "statusMessage": "black 포맷 검사 중..."
+          }
         ]
       }
     ]
