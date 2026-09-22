@@ -27,9 +27,9 @@
 - 로컬 환경에 Python 3.10+ 및 `uv`(또는 `pipx`) 설치 완료.
 
 ## 체크리스트
-[ ] `python --version` 결과가 3.10 이상인지 확인한다.
-[ ] `uv --version`(또는 `pipx --version`)이 정상 출력되는지 확인한다.
-[ ] 사용 중인 AI 코딩 어시스턴트(Claude Code, Cursor, Codex, Gemini CLI 등)를 확정한다.
+- [ ] `python --version` 결과가 3.10 이상인지 확인한다.
+- [ ] `uv --version`(또는 `pipx --version`)이 정상 출력되는지 확인한다.
+- [ ] 사용 중인 AI 코딩 어시스턴트(Claude Code, Cursor, Codex, Gemini CLI 등)를 확정한다.
 
 ---
 
@@ -54,9 +54,9 @@
 - 터미널에서 `graphify` 명령을 바로 호출할 수 있는 상태.
 
 ## 체크리스트
-[ ] `uv tool install graphifyy` (또는 `pipx install graphifyy`)를 실행한다.
-[ ] `graphify --version`으로 설치를 확인한다.
-[ ] 명령을 찾지 못하면 PATH를 갱신하고 새 터미널을 연다.
+- [ ] `uv tool install graphifyy` (또는 `pipx install graphifyy`)를 실행한다.
+- [ ] `graphify --version`으로 설치를 확인한다.
+- [ ] 명령을 찾지 못하면 PATH를 갱신하고 새 터미널을 연다.
 
 ---
 
@@ -79,9 +79,9 @@
 - 프로젝트 스코프로 설치한 경우, 커밋해야 할 파일에 대한 `git add` 안내 문구 출력.
 
 ## 체크리스트
-[ ] `graphify install`(또는 플랫폼별 명령)을 실행한다.
-[ ] 사용 중인 AI 어시스턴트를 열어 `/graphify` 명령이 인식되는지 확인한다.
-[ ] 프로젝트 스코프로 설치했다면 안내된 파일을 git에 커밋한다.
+- [ ] `graphify install`(또는 플랫폼별 명령)을 실행한다.
+- [ ] 사용 중인 AI 어시스턴트를 열어 `/graphify` 명령이 인식되는지 확인한다.
+- [ ] 프로젝트 스코프로 설치했다면 안내된 파일을 git에 커밋한다.
 
 ---
 
@@ -106,9 +106,9 @@
 - `graph.json` — 파일을 다시 읽지 않고도 질의할 수 있는 전체 그래프 데이터
 
 ## 체크리스트
-[ ] 연습용 저장소 루트에서 `/graphify .`를 실행한다.
-[ ] `graphify-out/graph.html`을 브라우저로 열어 그래프가 보이는지 확인한다.
-[ ] `graphify-out/GRAPH_REPORT.md`를 열어 핵심 개념 요약을 읽어본다.
+- [ ] 연습용 저장소 루트에서 `/graphify .`를 실행한다.
+- [ ] `graphify-out/graph.html`을 브라우저로 열어 그래프가 보이는지 확인한다.
+- [ ] `graphify-out/GRAPH_REPORT.md`를 열어 핵심 개념 요약을 읽어본다.
 
 ---
 
@@ -131,9 +131,9 @@
 - 다음 단계(질의)에서 사용할 구체적인 질문 목록.
 
 ## 체크리스트
-[ ] `GRAPH_REPORT.md`의 God nodes 목록을 확인한다.
-[ ] Suggested questions 중 하나를 골라 다음 단계에서 실제로 질의해 본다.
-[ ] `graph.html`에서 커뮤니티(색상별 군집)를 하나 클릭해 살펴본다.
+- [ ] `GRAPH_REPORT.md`의 God nodes 목록을 확인한다.
+- [ ] Suggested questions 중 하나를 골라 다음 단계에서 실제로 질의해 본다.
+- [ ] `graph.html`에서 커뮤니티(색상별 군집)를 하나 클릭해 살펴본다.
 
 ---
 
@@ -157,9 +157,9 @@
 - 두 개념 간 관계를 보여주는 경로(hop) 목록.
 
 ## 체크리스트
-[ ] `graphify explain "<핵심 개념 하나>"`를 실행해 결과를 확인한다.
-[ ] `graphify path "<개념A>" "<개념B>"`로 두 개념의 연결 경로를 확인한다.
-[ ] `graphify query "<자연어 질문>"`으로 5단계에서 고른 질문에 답을 얻는다.
+- [ ] `graphify explain "<핵심 개념 하나>"`를 실행해 결과를 확인한다.
+- [ ] `graphify path "<개념A>" "<개념B>"`로 두 개념의 연결 경로를 확인한다.
+- [ ] `graphify query "<자연어 질문>"`으로 5단계에서 고른 질문에 답을 얻는다.
 
 ---
 
