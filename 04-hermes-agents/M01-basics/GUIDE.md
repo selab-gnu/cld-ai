@@ -1,31 +1,29 @@
-# M02 가이드 — Hermes Agent Hello World
+# M01 가이드 — Hermes Agent Hello World
 
 > 목표: **설치 → 첫 대화 → 파일 만들기 → 기억시키기**까지, 명령어 몇 줄로 Hermes Agent를 처음 써 본다.
-> 소요 시간: 약 20~30분 · 준비물: 인터넷이 되는 PC, LLM API 키 1개
+> 소요 시간: 약 20분 · 준비물: 인터넷이 되는 PC
 > 참고: <https://github.com/nousresearch/hermes-agent>
 
 ---
 
 # 개념
 
-**Hermes Agent**는 Nous Research가 만든 무료 오픈소스 AI 에이전트입니다. 내 컴퓨터의 **터미널**에서 실행되며, ChatGPT처럼 대화할 수 있을 뿐 아니라 **직접 파일을 만들고 명령을 실행**할 수 있습니다.
+**Hermes Agent**는 Nous Research가 만든 무료 오픈소스 AI 에이전트입니다. 내 컴퓨터의 **터미널**에서 실행되며, 대화만 하는 것이 아니라 **직접 파일을 만들고 명령을 실행**할 수 있습니다.
 
 | 일반 챗봇 | Hermes Agent |
 |---|---|
 | 답을 **알려 준다** | 답을 알려 주고, **직접 실행**까지 한다 (파일 생성, 명령 실행) |
 | 대화가 끝나면 잊는다 | 중요한 내용을 **기억 파일**에 저장해 다음에도 기억한다 |
-| 한 회사의 모델만 쓴다 | OpenRouter·OpenAI·Anthropic 등 **모델을 골라 쓴다** |
 
-이번 튜토리얼에서 쓸 명령어는 이것뿐입니다.
+이번 튜토리얼에서 쓰는 명령어는 이것뿐입니다.
 
 | 명령어 | 하는 일 |
 |---|---|
 | `hermes` | 에이전트와 대화 시작 |
-| `hermes model` | 사용할 AI 모델 고르기 |
 | `hermes -c` | 지난 대화 이어서 하기 |
 | `hermes doctor` | 문제가 생겼을 때 진단 |
 
-대화창 안에서 쓰는 명령어(슬래시 명령)는 `/help`(도움말), `/new`(새 대화), `/quit`(종료) 세 개만 기억하면 됩니다.
+대화창 안에서는 `/help`(도움말), `/new`(새 대화), `/quit`(종료) 세 개만 기억하면 됩니다.
 
 > 💡 **표기 규칙**: 코드 블록의 `$`는 터미널 입력 표시이므로 `$` 뒤부터 입력합니다. `>`는 Hermes 대화창에 입력하는 문장입니다.
 
@@ -33,24 +31,24 @@
 
 # 1 단계: 설치하기
 
-터미널을 엽니다. (macOS: `Spotlight(⌘+Space)` → "터미널" / Windows: 시작 메뉴 → "PowerShell")
+터미널을 엽니다. (macOS: `⌘+Space` → "터미널" / Windows: 시작 메뉴 → "PowerShell")
 
 **macOS · Linux · WSL2**
 ```bash
 $ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-$ source ~/.zshrc        # macOS. Linux는 source ~/.bashrc
 ```
 
 **Windows (PowerShell)**
 ```powershell
 iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
-설치가 끝나면 PowerShell 창을 닫고 새로 엽니다.
 
-설치 확인:
+설치가 끝나면 셸을 다시 불러옵니다.
 ```bash
-$ hermes --version
+$ source ~/.zshrc        # macOS
+$ source ~/.bashrc       # Linux · WSL2
 ```
+Windows는 PowerShell 창을 닫고 새로 엽니다.
 
 ## 규칙
 - 설치 명령은 위 공식 주소만 사용한다.
@@ -64,38 +62,12 @@ $ hermes --version
 
 ---
 
-# 2 단계: AI 모델 연결하기
-
-Hermes는 "몸"이고, 실제로 생각하는 "두뇌"는 LLM(언어 모델)입니다. 두뇌를 연결해 줍니다.
-
-1. API 키를 하나 준비합니다. 처음이라면 **OpenRouter**를 추천합니다. (한 키로 여러 모델 사용 가능)
-   - <https://openrouter.ai/keys> → 로그인 → **Create Key** → 키 복사 (`sk-or-...`)
-   - 소액(예: 5달러)을 충전해 둡니다.
-
-2. 모델 선택 화면을 엽니다.
-   ```bash
-   $ hermes model
-   ```
-3. 목록에서 **OpenRouter** 번호를 입력하고 Enter → API 키 붙여 넣기 → 원하는 모델 선택.
-
-## 규칙
-- API 키는 남에게 보여 주거나 캡처해서 공유하지 않는다.
-- 처음에는 추천(기본) 모델을 그대로 고른다.
-
-## 산출물
-- 연결된 AI 모델 (설정은 `~/.hermes/` 폴더에 자동 저장됨)
-
-## 체크리스트
-- [ ] `hermes model`을 다시 실행했을 때 고른 Provider 옆에 `currently active`가 보인다.
-
----
-
-# 3 단계: Hello World — 첫 대화
+# 2 단계: Hello World — 첫 대화
 
 ```bash
 $ hermes
 ```
-배너에 내가 고른 모델 이름이 보이면 준비 완료입니다. 다음과 같이 입력해 봅니다.
+배너가 뜨고 입력 프롬프트가 나오면 준비 완료입니다. 다음과 같이 입력해 봅니다.
 
 ```text
 > 안녕! "Hello, World!"라고 한 줄로만 대답해줘.
@@ -124,7 +96,7 @@ Hello, World!
 
 ---
 
-# 4 단계: 에이전트에게 일 시키기 — 파일 만들고 실행하기
+# 3 단계: 에이전트에게 일 시키기 — 파일 만들고 실행하기
 
 Hermes의 진짜 차이는 **직접 실행**한다는 점입니다. 연습 폴더를 만들고 그 안에서 시작합니다.
 
@@ -165,9 +137,9 @@ Hello, Hermes!
 
 ---
 
-# 5 단계: 기억시키기 — 다음 대화에서도 기억하나?
+# 4 단계: 기억시키기 — 다음 대화에서도 기억하나?
 
-일반 챗봇과 달리 Hermes는 기억을 **파일로 저장**합니다.
+Hermes는 기억을 **파일로 저장**합니다.
 
 ```bash
 $ hermes
@@ -202,7 +174,7 @@ $ cat ~/.hermes/memories/USER.md
 
 ---
 
-# 6 단계: 이어서 하기 · 한 줄 질문 · 문제 해결
+# 5 단계: 이어서 하기 · 문제 해결
 
 **지난 대화 이어서 하기**
 ```bash
@@ -210,11 +182,6 @@ $ hermes -c
 ```
 ```text
 > 아까 만든 hello.py를 "Hello, 선아!"로 바꿔줘.
-```
-
-**대화창 없이 한 번만 묻기** (답만 출력하고 끝남)
-```bash
-$ hermes -z "Hello World를 영어·일본어·스페인어로 알려줘"
 ```
 
 **문제가 생기면**
@@ -225,8 +192,7 @@ $ hermes doctor
 | 증상 | 해결 |
 |---|---|
 | `command not found: hermes` | 터미널을 닫았다 다시 열기 |
-| 답이 오지 않거나 인증 오류 | `hermes model`로 API 키 다시 입력, OpenRouter 잔액 확인 |
-| 이상하게 동작함 | `hermes doctor` 실행 후 안내 따르기 |
+| 이상하게 동작하거나 오류가 남 | `hermes doctor` 실행 후 안내 따르기 |
 | 최신 버전으로 올리고 싶음 | `hermes update` |
 
 ## 규칙
@@ -237,11 +203,10 @@ $ hermes doctor
 
 ## 체크리스트
 - [ ] `hermes -c`로 이전 대화를 이어서 했다.
-- [ ] `hermes -z`로 한 줄 질문에 답을 받았다.
 - [ ] `hermes doctor`를 한 번 실행해 보았다.
 
 ---
 
 ## 다음 단계
 
-Hello World를 마쳤다면 [M01](../M01/README.md)에서 Telegram·GitHub와 연결해 **PR 자동 리뷰 에이전트**를 만들어 봅니다.
+Hello World를 마쳤다면 [M02-review](../M02-review/README.md)에서 Telegram·GitHub와 연결해 **PR 자동 리뷰 에이전트**를 만들어 봅니다.
