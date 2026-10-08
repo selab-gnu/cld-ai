@@ -158,7 +158,7 @@ $ hermes
 
 저장된 기억은 파일로 직접 볼 수 있습니다. (`/quit` 후)
 ```bash
-$ cat ~/.hermes/memories/USER.md
+$ cat ~/.hermes/memories/MEMORY.md
 ```
 
 ## 규칙
@@ -166,11 +166,11 @@ $ cat ~/.hermes/memories/USER.md
 - 비밀번호·API 키 같은 민감 정보는 기억시키지 않는다.
 
 ## 산출물
-- `~/.hermes/memories/USER.md`에 저장된 내 정보
+- `~/.hermes/memories/MEMORY.md`에 저장된 내 정보
 
 ## 체크리스트
 - [ ] `/new` 후에도 에이전트가 내 이름을 기억한다.
-- [ ] `USER.md` 파일에 내용이 들어 있다.
+- [ ] `MEMORY.md` 파일에 내용이 들어 있다.
 
 ---
 
