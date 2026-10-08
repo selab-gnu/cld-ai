@@ -207,6 +207,116 @@ $ hermes doctor
 
 ---
 
-## 다음 단계
+## 다음 단계: Claude 모델로 바꾸기
 
-Hello World를 마쳤다면 [M02-review](../M02-review/README.md)에서 Telegram·GitHub와 연결해 **PR 자동 리뷰 에이전트**를 만들어 봅니다.
+Hermes는 "몸"이고, 실제로 생각하는 "두뇌"는 AI 모델입니다. 이번에는 두뇌를 Anthropic의 **Claude**로 바꿔 봅니다. 방법은 두 가지입니다.
+
+| 방법 | 언제 쓰나 |
+|---|---|
+| **A. `hermes model`** (터미널) | Claude를 **처음** 연결할 때, 기본 모델로 계속 쓰고 싶을 때 |
+| **B. `/model`** (대화창 안) | 대화하는 도중에 모델을 **바로 바꾸고** 싶을 때 |
+
+> 💡 `/model`은 이미 연결해 둔 Provider 사이에서만 바꿀 수 있습니다. Claude를 처음 쓴다면 **A부터** 진행합니다.
+
+### 준비: Anthropic API 키 발급
+
+1. <https://console.anthropic.com/> 에 접속해 로그인(회원가입)합니다.
+2. **Settings → Billing**에서 크레딧을 충전합니다. (예: 5달러)
+3. **Settings → API Keys → Create Key**를 누르고 이름(예: `hermes`)을 입력합니다.
+4. `sk-ant-...`로 시작하는 키를 **복사해 둡니다.** (창을 닫으면 다시 볼 수 없습니다.)
+
+> Claude **Max** 요금제를 쓰고 Claude Code에 로그인되어 있다면, API 키 대신 아래 4번에서 **OAuth(Claude Code 로그인)** 방식을 고를 수 있습니다.
+
+### A. `hermes model`로 바꾸기
+
+**① 모델 선택 화면 열기** — 대화 중이라면 `/quit`으로 나온 뒤 터미널에 입력합니다.
+```bash
+$ hermes model
+```
+
+**② 현재 상태 확인** — 맨 위에 지금 쓰는 모델과 Provider가 보입니다.
+```text
+Current model:    openai/gpt-5.4
+Active provider:  OpenRouter
+
+Select provider:
+Select by number, Enter to confirm.
+  (o) 1. Nous Portal
+  (●) 2. OpenRouter (Pay-per-use API aggregator)  ← currently active
+  ...
+  (o) 6. Anthropic (Claude models via API key or Claude Code)
+  (o) 7. OpenAI
+  ...
+```
+
+**③ Anthropic 선택** — 목록에서 **Anthropic** 번호(위 화면에서는 `6`)를 입력하고 Enter를 누릅니다.
+```text
+6
+```
+
+**④ 인증 방식 선택** — **API key**를 고르고, 준비 단계에서 복사한 키를 붙여 넣은 뒤 Enter를 누릅니다.
+```text
+sk-ant-xxxxxxxxxxxxxxxxxxxxxxxx
+```
+(붙여 넣어도 화면에 글자가 보이지 않을 수 있습니다. 정상입니다.)
+
+**⑤ 모델 선택** — Claude 모델 목록이 나오면 번호로 고릅니다. 처음에는 **Sonnet** 계열(예: `claude-sonnet-4-6`)을 추천합니다. 빠르고 비용이 적당합니다.
+
+**⑥ 확인** — `hermes model`을 다시 실행해 Anthropic 옆에 `currently active`가 붙어 있는지 봅니다. 확인했으면 `Ctrl+C`로 빠져나옵니다.
+```text
+Active provider:  Anthropic
+  (●) 6. Anthropic (Claude models via API key or Claude Code)  ← currently active
+```
+
+**⑦ 대화로 확인**
+```bash
+$ hermes
+```
+```text
+> 지금 너는 어떤 회사의 어떤 모델이야? 한 줄로 답해줘.
+```
+→ Anthropic의 Claude라고 답하면 성공입니다.
+
+### B. 대화 중에 `/model`로 바꾸기
+
+**① Hermes 실행**
+```bash
+$ hermes
+```
+
+**② `/model` 입력** — 대화창에 슬래시 명령을 입력하고 Enter를 누릅니다.
+```text
+> /model
+```
+
+**③ Anthropic 선택** — Provider 목록이 나오면 **Anthropic**을 고릅니다. (방향키 또는 번호 입력 → Enter)
+
+**④ 모델 선택** — Claude 모델 목록에서 원하는 모델을 고르고 Enter를 누릅니다.
+
+**⑤ 확인** — 바로 질문해서 바뀌었는지 확인합니다.
+```text
+> 지금 너는 어떤 모델이야?
+```
+
+> ⌨️ **빠른 방법**: 목록을 거치지 않고 `/model provider:모델이름` 형식으로 한 번에 바꿀 수도 있습니다.
+> ```text
+> > /model anthropic:claude-sonnet-4-6
+> ```
+
+## 규칙
+- API 키는 남에게 보여 주거나 캡처해서 공유하지 않는다. 유출되면 Console에서 바로 **삭제(Revoke)** 한다.
+- 비용이 걱정되면 Console의 **Billing → Limits**에서 월 사용 한도를 먼저 정한다.
+- `/model`로 바꾼 모델은 **지금 대화에만** 적용될 수 있다. 계속 쓸 기본 모델은 `hermes model`로 정한다.
+
+## 산출물
+- Anthropic(Claude)으로 연결된 Hermes
+
+## 체크리스트
+- [ ] Anthropic Console에서 API 키를 발급했다.
+- [ ] `hermes model` 화면에서 Anthropic이 `currently active`이다.
+- [ ] 대화창에서 `/model`로 모델 목록을 열어 보았다.
+- [ ] "어떤 모델이야?"라고 물었을 때 Claude라고 답한다.
+
+> 화면의 메뉴 문구와 번호는 Hermes 버전에 따라 조금 다를 수 있습니다. 목록에서 **Anthropic**이라는 글자를 찾아 고르면 됩니다.
+
+
