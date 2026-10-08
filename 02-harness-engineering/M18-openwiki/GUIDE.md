@@ -94,8 +94,8 @@ claude --version
 > `node -v` 결과가 `v22.22.0`보다 낮으면 OpenWiki가 설치되지 않습니다. Node.js를 먼저 올리세요.
 
 ## 체크리스트
-[ ] `node -v`가 v22.22.0 이상인지 확인한다.
-[ ] `git --version`과 `claude --version`이 버전 번호를 출력하는지 확인한다.
+- [ ] `node -v`가 v22.22.0 이상인지 확인한다.
+- [ ] `git --version`과 `claude --version`이 버전 번호를 출력하는지 확인한다.
 
 # 1 단계: OpenWiki 설치
 
@@ -118,7 +118,7 @@ openwiki --help
 - 전역 명령어 `openwiki`
 
 ## 체크리스트
-[ ] `openwiki --help`가 명령어 목록을 출력하는지 확인한다.
+- [ ] `openwiki --help`가 명령어 목록을 출력하는지 확인한다.
 
 # 2 단계: Claude Code에 연결하기
 
@@ -149,7 +149,7 @@ openwiki --help
 - Claude Code MCP 설정에 추가된 `openwiki` 서버
 
 ## 체크리스트
-[ ] `openwiki integrations list`에서 claude가 설치됨으로 표시되는지 확인한다.
+- [ ] `openwiki integrations list`에서 claude가 설치됨으로 표시되는지 확인한다.
 
 # 3 단계: 연습용 저장소 만들기
 
@@ -335,8 +335,8 @@ openwiki --help
 - git 저장소 `todo-cli/` (소스 3개, 테스트 1개, 커밋 1개)
 
 ## 체크리스트
-[ ] `npm test` 결과가 `pass 5`, `fail 0`인지 확인한다.
-[ ] `git log --oneline`에 커밋이 1개 보이는지 확인한다.
+- [ ] `npm test` 결과가 `pass 5`, `fail 0`인지 확인한다.
+- [ ] `git log --oneline`에 커밋이 1개 보이는지 확인한다.
 
 # 4 단계: 위키 생성하기 (샘플)
 
@@ -397,10 +397,10 @@ todo-cli/
 ```
 
 ## 체크리스트
-[ ] `openwiki/quickstart.md` 파일이 생겼는지 확인한다.
-[ ] 저장소 루트에 `AGENTS.md`가 생겼고 `<!-- OPENWIKI:START -->` 블록이 들어 있는지 확인한다.
-[ ] `openwiki/.claims/` 폴더에 JSON 파일이 있는지 확인한다.
-[ ] 위키 본문이 한국어로 작성되었는지 확인한다.
+- [ ] `openwiki/quickstart.md` 파일이 생겼는지 확인한다.
+- [ ] 저장소 루트에 `AGENTS.md`가 생겼고 `<!-- OPENWIKI:START -->` 블록이 들어 있는지 확인한다.
+- [ ] `openwiki/.claims/` 폴더에 JSON 파일이 있는지 확인한다.
+- [ ] 위키 본문이 한국어로 작성되었는지 확인한다.
 
 # 5 단계: 위키 읽고 검색하기
 
@@ -427,8 +427,8 @@ todo-cli/
 - 없음 (읽기 전용 단계)
 
 ## 체크리스트
-[ ] Claude Code의 답변에 `openwiki_search` 도구 호출이 보이는지 확인한다.
-[ ] 답변 내용("가장 큰 id에 1을 더한다")이 `src/todo.js`의 `addTodo` 코드와 일치하는지 확인한다.
+- [ ] Claude Code의 답변에 `openwiki_search` 도구 호출이 보이는지 확인한다.
+- [ ] 답변 내용("가장 큰 id에 1을 더한다")이 `src/todo.js`의 `addTodo` 코드와 일치하는지 확인한다.
 
 # 6 단계: 그래프로 시각화하기
 
@@ -454,8 +454,8 @@ todo-cli/
 - 없음 (로컬 미리보기). 정적 사이트로 내보내려면 `openwiki visualize openwiki --export docs/openwiki-visualizer`를 사용합니다.
 
 ## 체크리스트
-[ ] 브라우저에 위키 페이지들이 그래프로 표시되는지 확인한다.
-[ ] 노드를 클릭하면 오른쪽에 해당 페이지 내용이 보이는지 확인한다.
+- [ ] 브라우저에 위키 페이지들이 그래프로 표시되는지 확인한다.
+- [ ] 노드를 클릭하면 오른쪽에 해당 페이지 내용이 보이는지 확인한다.
 
 # 7 단계: 코드 변경 후 위키 업데이트하기 (샘플)
 
@@ -520,9 +520,9 @@ todo-cli/
 - 삭제 기능이 반영된 위키 페이지와 Claim (커밋 1개)
 
 ## 체크리스트
-[ ] `npm test`가 모두 통과하는지 확인한다.
-[ ] `git diff`에서 위키에 `removeTodo`(삭제 기능) 설명이 추가되었는지 확인한다.
-[ ] 변경과 무관한 위키 페이지의 본문은 바뀌지 않았는지 확인한다.
+- [ ] `npm test`가 모두 통과하는지 확인한다.
+- [ ] `git diff`에서 위키에 `removeTodo`(삭제 기능) 설명이 추가되었는지 확인한다.
+- [ ] 변경과 무관한 위키 페이지의 본문은 바뀌지 않았는지 확인한다.
 
 ---
 
