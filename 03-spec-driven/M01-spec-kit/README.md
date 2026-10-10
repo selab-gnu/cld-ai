@@ -64,7 +64,7 @@ GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)**
 이 모듈의 완료 기준:
 
 - [ ] `specify version` 이 정상 출력된다.
-- [ ] 예제 프로젝트에 `.specify/memory/constitution.md` 와 `specs/001-*/` 폴더(spec.md, plan.md, tasks.md 등)가 생성되었다.
+- [ ] 예제 프로젝트에 `.specify/memory/constitution.md` 와 `specs/001-todo-list-app/` 폴더(spec.md, plan.md, tasks.md 등)가 생성되었다.
 - [ ] `/speckit-converge` 가 **✅ Converged** 를 보고했다.
 - [ ] `node --test` 가 통과하고, 브라우저에서 할 일 앱이 동작한다.
 

@@ -27,7 +27,7 @@
 | 템플릿 | `.specify/templates/*.md` | spec, plan, tasks, checklist, constitution 문서의 틀 |
 | 스크립트 | `.specify/scripts/bash/*.sh` | 기능 폴더 생성, 사전 조건 확인 등 자동화 스크립트 |
 | 헌법(Constitution) | `.specify/memory/constitution.md` | 모든 단계가 지켜야 하는 프로젝트 원칙 |
-| 기능 폴더 | `specs/001-기능이름/` | 기능 하나당 명세·계획·작업 문서가 모이는 곳 |
+| 기능 폴더 | `specs/001-todo-list-app/` | 기능 하나당 명세·계획·작업 문서가 모이는 곳 |
 
 > ⚠️ **터미널 명령 vs 에이전트 명령을 구분하자.**
 > `specify ...` 는 **터미널**에서, `/speckit-...` 는 **Claude Code 채팅창**에서 입력한다.
@@ -56,7 +56,7 @@
 | 스킬 | 필수 여부 | 하는 일 | 주요 산출물 |
 | --- | --- | --- | --- |
 | `/speckit-constitution` | 프로젝트당 1회 | 프로젝트 원칙 수립 | `.specify/memory/constitution.md` |
-| `/speckit-specify` | 필수 | 자연어 설명 → 기능 명세 | `specs/NNN-이름/spec.md` |
+| `/speckit-specify` | 필수 | 자연어 설명 → 기능 명세 | `specs/001-todo-list-app/spec.md` |
 | `/speckit-clarify` | 권장 | 최대 5개의 질문으로 명세의 빈틈 보완 | `spec.md` 갱신 |
 | `/speckit-plan` | 필수 | 기술 스택·구조 설계 | `plan.md` 외 설계 문서 |
 | `/speckit-checklist` | 선택 | 요구사항 품질 체크리스트("요구사항의 단위 테스트") | `checklists/*.md` |
@@ -129,7 +129,7 @@ cd my-todo
 specify extension add git
 ```
 
-git 확장을 설치하면 기능마다 `001-기능이름` 같은 **git 브랜치가 자동 생성**되고, 단계 사이에 커밋을 제안해 준다. 설치하지 않아도 SDD는 동작한다(현재 기능은 `.specify/feature.json` 으로 추적).
+git 확장을 설치하면 기능마다 기능 폴더와 같은 이름(예: `001-todo-list-app`)의 **git 브랜치가 자동 생성**되고, 단계 사이에 커밋을 제안해 준다. 설치하지 않아도 SDD는 동작한다(현재 기능은 `.specify/feature.json` 으로 추적).
 
 ## 규칙
 
@@ -157,15 +157,22 @@ my-todo/
 │       └── speckit-git-*/SKILL.md           (git 확장 설치 시 5개)
 └── .specify/
     ├── memory/constitution.md               (아직 빈 템플릿)
-    ├── scripts/bash/*.sh
+    ├── scripts/bash/*.sh                    (create-new-feature.sh, setup-plan.sh …)
     ├── templates/{spec,plan,tasks,checklist,constitution}-template.md
+    ├── workflows/speckit/workflow.yml
+    ├── integrations/{claude,speckit}.manifest.json
+    ├── integration.json, init-options.json  (버전·통합 정보: "integration": "claude")
     ├── extensions.yml                       (git 확장 설치 시: 단계별 hook 설정)
-    └── integration.json, init-options.json …
+    └── extensions/git/                      (git 확장 설치 시: 스크립트·설정)
+
+※ git 저장소(.git)와 specs/ 폴더는 아직 없다. .git 은 2단계(constitution) 때,
+  specs/ 와 .specify/feature.json 은 3단계(specify) 때 생긴다.
 ```
 
 ## 체크리스트
 
 - [ ] `specify version` 에서 CLI Version 이 출력된다.
+- [ ] 확인은 숨김 폴더가 보이도록 터미널에서 `ls -a` 와 `ls .claude/skills` 로 한다. (Finder는 `⌘ + Shift + .`)
 - [ ] `my-todo/.claude/skills/` 아래에 `speckit-` 으로 시작하는 폴더가 10개 이상 있다.
 - [ ] `my-todo/.specify/memory/constitution.md` 파일이 존재한다(내용은 `[PROJECT_NAME]` 같은 자리표시자).
 - [ ] (git 확장 사용 시) `specify extension add git` 결과에 `speckit.git.feature` 등이 나열된다.
@@ -241,13 +248,14 @@ Version change: (template) → 1.0.0
 - **"무엇을"과 "왜"만 쓴다. 기술 스택(HTML, React, DB 이름 등)은 쓰지 않는다.** 기술은 5단계(plan)에서 정한다.
 - **범위 밖(Out of scope)** 을 명시하면 AI가 기능을 부풀리지 않는다. (예: "로그인은 이번 범위가 아니다")
 - AI는 불확실한 부분을 `[NEEDS CLARIFICATION: 질문]` 으로 표시하며, **최대 3개**까지만 남긴다. 남으면 선택지(A/B/C)와 함께 질문하므로 답해 준다.
-- AI가 정한 짧은 기능 이름(2~4 단어)으로 `specs/001-<이름>/` 폴더가 만들어진다. 두 번째 기능은 `002-...` 가 된다.
+- AI가 설명을 읽고 영어 짧은 이름(2~4 단어)을 정해 `specs/001-todo-list-app/` 같은 폴더를 만든다. 두 번째 기능은 `002-...` 가 된다.
+- git 확장을 설치했다면 같은 이름의 브랜치(`001-todo-list-app`)가 만들어지고 자동으로 체크아웃되며, `.specify/feature.json` 에 `"feature_directory": "specs/001-todo-list-app"` 이 기록된다.
 - 현재 작업 중인 기능 폴더는 `.specify/feature.json` 에 기록된다. **git 브랜치를 바꿔도 활성 기능은 바뀌지 않는다는 점**에 주의한다.
 
 ## 산출물
 
 ```
-specs/001-todo-basic/            ← 이름은 AI가 정함 (예시)
+specs/001-todo-list-app/         ← 번호(001)는 자동, 이름(todo-list-app)은 AI가 정함
 ├── spec.md                      ← 기능 명세
 └── checklists/
     └── requirements.md          ← 명세 품질 자동 점검표
@@ -266,12 +274,13 @@ specs/001-todo-basic/            ← 이름은 AI가 정함 (예시)
 
 ## 체크리스트
 
-- [ ] `specs/001-*/spec.md` 가 생성되었다.
+- [ ] `specs/001-todo-list-app/spec.md` 가 생성되었다. (파일 위쪽에 Feature Branch: 001-todo-list-app 이 적혀 있다)
+- [ ] `.specify/feature.json` 이 `specs/001-todo-list-app` 을 가리킨다.
 - [ ] `spec.md` 에 HTML, JavaScript, localStorage 같은 **구현 용어가 없다**(있다면 지우라고 요청).
 - [ ] 사용자 스토리마다 **우선순위(P1~)** 와 **인수 조건(Given/When/Then)** 이 있다.
 - [ ] 성공 기준이 숫자나 관찰 가능한 결과로 **측정 가능**하다.
 - [ ] `checklists/requirements.md` 의 항목이 대부분 `[x]` 이다.
-- [ ] (git 확장 사용 시) `git branch` 에 `001-...` 브랜치가 보인다.
+- [ ] (git 확장 사용 시) `git branch` 결과에 `* 001-todo-list-app` 과 `main` 이 보인다.
 
 ---
 
@@ -353,7 +362,7 @@ Recommended: B ...
 ## 산출물
 
 ```
-specs/001-todo-basic/
+specs/001-todo-list-app/
 ├── spec.md
 ├── plan.md            ← 요약, 기술 맥락, Constitution Check, 프로젝트 구조
 ├── research.md        ← 기술 결정과 근거·대안 (Phase 0)
@@ -400,7 +409,7 @@ specs/001-todo-basic/
 
 ## 산출물
 
-- `specs/001-todo-basic/tasks.md`
+- `specs/001-todo-list-app/tasks.md`
 
 ```markdown
 ## Phase 1: Setup
@@ -470,7 +479,7 @@ my-todo/
 │   └── app.js            ← 화면 렌더링·이벤트
 ├── tests/
 │   └── todo.test.js
-└── specs/001-todo-basic/tasks.md   ← 모든 작업이 [X]
+└── specs/001-todo-list-app/tasks.md   ← 모든 작업이 [X]
 ```
 
 - `/speckit-converge` 결과: `✅ Converged — the implementation satisfies the spec, plan, and tasks.` 또는 추가된 작업 목록
@@ -494,7 +503,7 @@ Spec Kit 프로젝트에서 Claude Code가 지켜야 할 규칙을 프로젝트 
 ## Spec-Driven Development 규칙 (Spec Kit)
 
 - 이 프로젝트는 GitHub Spec Kit으로 스펙 주도 개발을 한다. 원칙은 `.specify/memory/constitution.md` 를 따른다.
-- 기능 문서는 `specs/NNN-이름/` 에 있다. 현재 기능은 `.specify/feature.json` 을 확인한다.
+- 기능 문서는 `specs/NNN-기능이름/` (예: `specs/001-todo-list-app/`) 에 있다. 현재 기능은 `.specify/feature.json` 을 확인한다.
 - 명세(`spec.md`)에는 기술 스택을 쓰지 않는다. 기술 결정은 `plan.md` 와 `research.md` 에만 기록한다.
 - 요구사항이 바뀌면 코드부터 고치지 말고 `spec.md` → `/speckit-plan` → `/speckit-tasks` 순서로 갱신을 제안한다.
 - 구현은 `tasks.md` 의 작업 순서를 따르고, 완료한 작업은 `[X]` 로 표시한다.
@@ -506,6 +515,7 @@ Spec Kit 프로젝트에서 Claude Code가 지켜야 할 규칙을 프로젝트 
 
 | 증상 | 원인 / 해결 |
 | --- | --- |
+| Finder나 `ls` 에서 `.claude`, `.specify` 폴더가 안 보인다 | 이름이 `.` 으로 시작하는 **숨김 폴더**다. 터미널에서 `ls -a` 또는 `ls .claude/skills`, Finder에서는 `⌘ + Shift + .` 로 표시. 홈의 `~/.claude` 가 아니라 **프로젝트 폴더 안의** `.claude` 를 봐야 한다 |
 | `command not found: specify` | `uv tool install` 후 PATH 미반영. 터미널을 새로 열거나 `uv tool update-shell` 실행 |
 | `/speckit-...` 가 Claude Code에서 안 보인다 | 프로젝트 폴더(`my-todo`) **안에서** `claude` 를 실행했는지 확인. `.claude/skills/` 존재 여부 확인 |
 | 인터넷 글처럼 `/speckit.specify` 를 입력했더니 안 된다 | Claude Code 통합은 스킬 방식이라 `/speckit-specify` (하이픈) 사용 |

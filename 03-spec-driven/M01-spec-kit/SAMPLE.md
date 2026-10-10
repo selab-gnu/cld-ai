@@ -65,6 +65,8 @@ speckit-checklist    speckit-implement    speckit-plan
 speckit-clarify      speckit-constitution speckit-specify      speckit-tasks
 ```
 
+> 💡 `.claude`, `.specify` 는 이름이 `.` 으로 시작하는 **숨김 폴더**라 Finder나 그냥 `ls` 로는 보이지 않는다. `ls -a` 를 쓰거나 Finder에서 `⌘ + Shift + .` 를 누른다.
+
 `specify init` 마지막 화면의 **Next Steps** 상자에 `/speckit-constitution` ~ `/speckit-converge` 순서가 안내되는 것도 확인하자.
 
 ---
@@ -117,7 +119,18 @@ claude
 AI가 `Q1:` 처럼 질문(선택지 표)을 보여 주면 `Q1: A` 형식으로 답한다.
 
 ✅ **확인**
-- [ ] `specs/001-<이름>/spec.md` 와 `checklists/requirements.md` 가 생겼다.
+- [ ] 아래 구조가 생겼다. (폴더 이름은 AI가 정하므로 다를 수 있다)
+
+```
+specs/
+└── 001-todo-list-app/
+    ├── spec.md
+    └── checklists/
+        └── requirements.md
+```
+
+- [ ] `git branch` 결과에 `* 001-todo-list-app` 이 보인다. (git 확장 사용 시)
+- [ ] `cat .specify/feature.json` 결과가 `"feature_directory": "specs/001-todo-list-app"` 이다.
 - [ ] spec.md 에 사용자 스토리(P1, P2 …)와 `FR-001` 형식의 요구사항, `SC-001` 형식의 성공 기준이 있다.
 - [ ] spec.md 에 HTML·JavaScript·localStorage 같은 **기술 용어가 없다**. 있으면 아래처럼 요청한다.
 
@@ -245,7 +258,7 @@ node --test
 python3 -m http.server 8000
 ```
 
-브라우저에서 **http://localhost:8000** 을 열고 아래 시나리오를 직접 해 본다. (이 시나리오는 `specs/001-*/quickstart.md` 에도 정리되어 있다.)
+브라우저에서 **http://localhost:8000** 을 열고 아래 시나리오를 직접 해 본다. (이 시나리오는 `specs/001-todo-list-app/quickstart.md` 에도 정리되어 있다.)
 
 | # | 동작 | 기대 결과 |
 | --- | --- | --- |
@@ -260,7 +273,7 @@ python3 -m http.server 8000
 ✅ **확인**
 - [ ] `node --test` 결과가 `# fail 0` 이다.
 - [ ] 위 표의 7가지가 모두 기대대로 동작한다.
-- [ ] (git 확장 사용 시) `git log --oneline` 과 `git branch` 로 `001-...` 브랜치와 커밋 기록을 확인했다.
+- [ ] (git 확장 사용 시) `git log --oneline` 과 `git branch` 로 `001-todo-list-app` 브랜치와 커밋 기록을 확인했다.
 
 ---
 
@@ -296,7 +309,7 @@ SDD의 핵심은 **변경도 명세에서 시작한다**는 것이다. 마감일
 ```
 
 ✅ **확인**
-- [ ] `specs/002-<이름>/` 폴더가 새로 생겼다(001 은 그대로 남아 변경 이력이 된다).
+- [ ] `specs/002-...` 폴더(예: `specs/002-todo-due-date/`)가 새로 생겼다(`001-todo-list-app` 은 그대로 남아 변경 이력이 된다).
 - [ ] `.specify/feature.json` 이 002 폴더를 가리킨다.
 - [ ] 기존 테스트와 새 테스트가 모두 통과하고, 예전에 저장한 할 일도 정상 표시된다.
 
@@ -306,6 +319,7 @@ SDD의 핵심은 **변경도 명세에서 시작한다**는 것이다. 마감일
 
 | 증상 | 해결 |
 | --- | --- |
+| `.claude` 폴더가 안 보인다 | 숨김 폴더다. `ls -a` 로 보거나 Finder에서 `⌘ + Shift + .` 를 누른다. 홈의 `~/.claude` 가 아니라 `my-todo/.claude` 를 확인한다 |
 | `specify: command not found` | 새 터미널을 열거나 `uv tool update-shell` 실행 후 다시 시도 |
 | Claude Code에 `/speckit-...` 가 안 보임 | `my-todo` 폴더 안에서 `claude` 를 실행했는지 확인 (`pwd`) |
 | 브라우저 화면이 비어 있음 | `index.html` 을 더블클릭으로 열면 ES 모듈이 막힌다. `python3 -m http.server 8000` 주소로 접속 |
@@ -313,4 +327,4 @@ SDD의 핵심은 **변경도 명세에서 시작한다**는 것이다. 마감일
 | AI 답변이 앞 단계 내용을 헷갈림 | 모든 산출물이 파일로 남아 있으므로 `/clear` 후 다음 단계 명령을 입력해도 된다 |
 | 결과가 마음에 들지 않음 | 해당 산출물 파일을 직접 고치거나, 같은 명령을 수정 지시와 함께 다시 실행 (예: `/speckit-plan 앞의 계획에서 ... 를 바꿔 줘`) |
 
-> 📝 AI가 생성하는 문서와 코드는 실행할 때마다 조금씩 달라진다. 폴더 이름(`001-todo-basic` 등)이나 문장 표현이 이 문서와 달라도, **✅ 확인 항목**을 만족하면 정상이다.
+> 📝 AI가 생성하는 문서와 코드는 실행할 때마다 조금씩 달라진다. 폴더 이름(이 문서의 `001-todo-list-app` 등)이나 문장 표현이 이 문서와 달라도, **✅ 확인 항목**을 만족하면 정상이다.
