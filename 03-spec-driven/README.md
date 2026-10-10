@@ -1,2 +1,0 @@
-# cld-ai
-ai-methods
