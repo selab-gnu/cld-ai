@@ -382,8 +382,7 @@ my-todo-openspec/
 
 - [ ] tasks.md 의 모든 작업이 `[x]` 이다.
 - [ ] `node --test` 가 통과한다.
-- [ ] `python3 -m http.server 8000` 실행 후 http://localhost:8000 에서 명세의 시나리오대로 동작한다.
-- [ ] 새로 고침 후에도 목록이 유지되고, 키보드만으로 사용할 수 있다.
+- [ ] [SAMPLE.md](SAMPLE.md) 의 순서대로 앱을 실행하고, 모든 시나리오(추가·완료·필터·삭제·데이터 유지·키보드)가 명세대로 동작함을 확인했다.
 
 ---
 
@@ -447,6 +446,68 @@ Change 'add-todo-list' archived as '2026-10-11-add-todo-list'.
 
 ---
 
+# 8 단계: (도전) 두 번째 변경 — 기존 명세 수정하기
+
+**목적** — 이미 있는 기준 명세(`openspec/specs/todo-list/spec.md`)를 **델타 명세로 수정**하는 순환을 한 번 더 돌린다. OpenSpec의 진가는 이 두 번째 변경에서 드러난다.
+
+**입력** — 7단계까지 끝낸 상태에서
+
+```text
+/opsx:propose 변경 이름은 add-due-date 로 하고, 기존 기능 todo-list 를 수정하는 변경으로 만들어 줘. 사용자는 할 일을 추가할 때 선택적으로 마감일을 지정할 수 있다. 마감일이 지난 미완료 할 일은 눈에 띄게 표시된다. 목록을 마감일이 가까운 순으로 정렬해 볼 수 있다. 기존에 저장된 마감일 없는 할 일도 그대로 보여야 한다. 알림 기능은 범위 밖이다.
+```
+
+이어서 5~7단계와 같은 순서로 진행한다.
+
+```bash
+openspec validate add-due-date --strict      # 🖥️ 터미널
+openspec show add-due-date
+```
+
+```text
+/opsx:apply add-due-date
+```
+
+앱 확인([SAMPLE.md 8단계](SAMPLE.md#8단계-도전-마감일-기능-써-보기)) 후
+
+```text
+/opsx:archive add-due-date
+```
+
+## 규칙
+
+- 기존 기능을 바꾸는 변경이므로 proposal.md 의 **Modified Capabilities** 에 `todo-list` 가 들어가야 한다. New Capabilities 에 새 이름이 생기면 기능이 둘로 쪼개진 것이니 `/opsx:update` 로 바로잡는다.
+- 기존 요구사항(예: 할 일 추가)의 동작이 바뀌면 `## MODIFIED Requirements` 에 **요구사항 전체 내용**을 다시 적어야 한다. archive 때 통째로 교체되기 때문이다.
+- 저장 데이터 형식이 바뀌므로 **예전 데이터 호환**(마감일 없는 할 일)을 명세 시나리오와 테스트에 꼭 포함한다.
+
+## 산출물
+
+```
+openspec/changes/add-due-date/
+├── proposal.md                 ← Modified Capabilities: todo-list
+├── specs/todo-list/spec.md     ← ## ADDED Requirements (+ 필요하면 ## MODIFIED Requirements)
+├── design.md
+└── tasks.md
+```
+
+archive 후:
+
+```
+openspec/specs/todo-list/spec.md                    ← 마감일 요구사항이 합쳐짐 (파일은 여전히 하나)
+openspec/changes/archive/YYYY-MM-DD-add-todo-list/
+openspec/changes/archive/YYYY-MM-DD-add-due-date/
+```
+
+## 체크리스트
+
+- [ ] proposal.md 의 Modified Capabilities 에 `todo-list` 가 있다.
+- [ ] `openspec validate add-due-date --strict` 가 `is valid` 이다.
+- [ ] `node --test` 가 통과하고, SAMPLE.md 8단계 시나리오가 모두 동작한다.
+- [ ] archive 후 `openspec/specs/todo-list/spec.md` 에 마감일 요구사항이 들어 있다.
+- [ ] `openspec/changes/archive/` 아래에 변경이 2개 있다.
+- [ ] `git add -A && git commit` 으로 커밋했다.
+
+---
+
 ## 명령 한눈에 보기
 
 **Claude Code 슬래시 커맨드 (기본 `core` 프로필)**
@@ -474,7 +535,7 @@ Change 'add-todo-list' archived as '2026-10-11-add-todo-list'.
 | `openspec view` | 대화형 대시보드 |
 | `openspec archive <변경>` | 터미널에서 직접 보관 |
 
-## 이 가이드의 7단계
+## 이 가이드의 단계
 
 | 단계 | 내용 | 사용하는 명령 |
 | --- | --- | --- |
@@ -485,8 +546,9 @@ Change 'add-todo-list' archived as '2026-10-11-add-todo-list'.
 | 5 | 검토와 수정 | `openspec status/show/validate`, `/opsx:update` |
 | 6 | 구현 | `/opsx:apply` |
 | 7 | 병합과 보관 | `/opsx:sync`(선택), `/opsx:archive` |
+| 8 | (도전) 두 번째 변경으로 기존 명세 수정 | `/opsx:propose` → `apply` → `archive` |
 
-> 📌 실습 예제: 모든 입력 예시는 M01과 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 복사해서 그대로 실행하는 버전은 [SAMPLE.md](SAMPLE.md) 에 있다.
+> 📌 실습 예제: 모든 입력 예시는 M01과 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
 
 # 부록 A. CLAUDE.md 규칙 조각
 

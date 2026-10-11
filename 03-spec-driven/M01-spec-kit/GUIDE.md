@@ -68,7 +68,7 @@
 - **짧은 경로**(작은 기능): constitution → specify → plan → tasks → implement → converge
 - **전체 경로**(실무 기능): constitution → specify → **clarify** → plan → **checklist** → tasks → **analyze** → implement → converge
 
-이 가이드는 **전체 경로**를 7단계로 묶어 설명한다.
+이 가이드는 **전체 경로**를 7단계로 묶어 설명하고, 8단계에서 두 번째 기능으로 한 번 더 반복한다.
 
 | 단계 | 내용 | 사용하는 명령 |
 | --- | --- | --- |
@@ -79,8 +79,9 @@
 | 5 | 계획: 어떻게 만들 것인가 | `/speckit-plan`, `/speckit-checklist` |
 | 6 | 작업 분해와 일관성 점검 | `/speckit-tasks`, `/speckit-analyze` |
 | 7 | 구현과 수렴 검증 | `/speckit-implement`, `/speckit-converge` |
+| 8 | (도전) 두 번째 기능 추가 | 3~7단계 반복 |
 
-> 📌 실습 예제: 이 가이드의 모든 입력 예시는 **"할 일 관리 웹 앱(my-todo)"** 을 기준으로 한다. 복사해서 그대로 실행하는 버전은 [SAMPLE.md](SAMPLE.md) 에 있다.
+> 📌 실습 예제: 이 가이드의 모든 입력 예시는 **"할 일 관리 웹 앱(my-todo)"** 을 기준으로 한다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
 
 ---
 
@@ -414,7 +415,7 @@ specs/001-todo-list-app/
 ```markdown
 ## Phase 1: Setup
 - [ ] T001 Create project structure (index.html, src/, tests/, package.json)
-- [ ] T002 [P] Add base styles in styles.css
+- [ ] T002 [P] Add base styles in src/style.css
 
 ## Phase 3: User Story 1 - 할 일 추가하고 보기 (Priority: P1) 🎯 MVP
 ### Tests for User Story 1
@@ -471,12 +472,12 @@ specs/001-todo-list-app/
 ```
 my-todo/
 ├── index.html
-├── styles.css
-├── package.json          {"type": "module", "scripts": {"test": "node --test"}}
+├── package.json          {"type": "module"}  ← 외부 의존성 없음
 ├── src/
 │   ├── todo.js           ← 순수 함수 (addTodo, toggleTodo, removeTodo, filterTodos, countActive …)
-│   ├── storage.js        ← localStorage 저장/불러오기
-│   └── app.js            ← 화면 렌더링·이벤트
+│   ├── storage.js        ← localStorage 저장/불러오기 (키 예: my-todo:todos)
+│   ├── app.js            ← 화면 렌더링·이벤트
+│   └── style.css
 ├── tests/
 │   └── todo.test.js
 └── specs/001-todo-list-app/tasks.md   ← 모든 작업이 [X]
@@ -487,10 +488,61 @@ my-todo/
 ## 체크리스트
 
 - [ ] `tasks.md` 의 모든 작업이 `[X]` 이다.
-- [ ] `node --test` (또는 `npm test`) 가 모두 통과한다.
-- [ ] `python3 -m http.server 8000` 실행 후 http://localhost:8000 에서 추가·완료·삭제·필터·남은 개수가 동작한다.
-- [ ] 새로 고침 후에도 목록이 유지된다.
-- [ ] Tab/Enter/Space 만으로 모든 기능을 쓸 수 있다(헌법의 접근성 원칙).
+- [ ] `node --test` 가 `# fail 0` 으로 통과한다.
+- [ ] [SAMPLE.md](SAMPLE.md) 의 순서대로 앱을 실행하고, 모든 시나리오(추가·완료·데이터 유지·삭제·걸러 보기·키보드)가 명세대로 동작함을 확인했다.
+- [ ] `/speckit-converge` 가 **Converged** 를 보고했다.
+
+---
+
+# 8 단계: (도전) 두 번째 기능 추가 — 명세부터 다시
+
+**목적** — SDD에서는 **변경도 명세에서 시작한다.** 이미 완성된 앱에 마감일 기능을 새 기능 폴더(`specs/002-…`)로 추가하며 2~7단계를 한 번 더 돌린다.
+
+**입력** — 7단계까지 끝낸 상태에서 Claude Code에 순서대로
+
+```text
+/speckit-specify 기존 할 일 앱에 마감일 기능을 추가한다. 사용자는 할 일에 선택적으로 마감일을 지정할 수 있고, 마감일이 지난 미완료 할 일은 눈에 띄게 표시된다. 목록을 마감일이 가까운 순으로 정렬해 볼 수 있다. 기존에 저장된 마감일 없는 할 일도 그대로 보여야 한다.
+```
+```text
+/speckit-clarify
+```
+```text
+/speckit-plan 기존 구조(src/todo.js, src/storage.js, src/app.js)를 유지하고, 마감일은 HTML date 입력과 ISO 날짜 문자열(YYYY-MM-DD)로 저장한다. 기존에 저장된 마감일 없는 데이터도 그대로 읽혀야 한다.
+```
+```text
+/speckit-tasks 헌법의 테스트 우선 원칙에 따라 테스트 작업을 포함해 줘.
+```
+```text
+/speckit-analyze
+```
+```text
+/speckit-implement
+```
+```text
+/speckit-converge
+```
+
+## 규칙
+
+- 헌법(2단계)은 다시 만들지 않는다. 프로젝트당 한 번이다.
+- 저장 데이터 형식이 바뀌므로 **예전 데이터 호환**(마감일 없는 할 일)을 명세·테스트에 꼭 포함한다.
+- 새 기능 폴더가 만들어지면 `.specify/feature.json` 이 그 폴더를 가리킨다. 001 폴더의 문서는 그대로 남아 이력이 된다.
+
+## 산출물
+
+```
+specs/
+├── 001-todo-list-app/        ← 그대로 유지
+└── 002-…/                    ← 예: 002-todo-due-date (이름은 AI가 정함)
+    ├── spec.md  plan.md  research.md  data-model.md  quickstart.md  tasks.md
+    └── checklists/ contracts/
+```
+
+## 체크리스트
+
+- [ ] `specs/002-…` 폴더가 새로 생겼고 `001-todo-list-app` 은 그대로다.
+- [ ] `.specify/feature.json` 이 002 폴더를 가리킨다. (git 확장 사용 시 `git branch` 에 `002-…` 브랜치)
+- [ ] `node --test` 가 통과하고, [SAMPLE.md](SAMPLE.md) 8단계(마감일)와 5단계(기존 기능) 시나리오가 모두 동작한다.
 - [ ] `/speckit-converge` 가 **Converged** 를 보고했다.
 
 ---

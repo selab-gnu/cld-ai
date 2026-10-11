@@ -33,9 +33,9 @@ GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)**
 | --- | --- | --- |
 | [README.md](README.md) | 모듈 소개, 목표, 준비물, 품질 기준 (지금 이 문서) | 가장 먼저 |
 | [GUIDE.md](GUIDE.md) | SDD 개념 + 7단계별 **목적·입력·규칙·산출물·체크리스트** 상세 가이드 | 개념을 이해하며 단계별로 |
-| [SAMPLE.md](SAMPLE.md) | 예제 "할 일 관리 앱"을 **복사·붙여넣기만으로** 끝까지 실행하는 실습서 | 손으로 직접 따라 할 때 |
+| [SAMPLE.md](SAMPLE.md) | 완성한 "할 일 관리 앱"을 **실행·사용하고 명세대로 동작하는지 확인**하는 가이드 | GUIDE 7단계(implement) 이후 |
 
-> 💡 추천 학습 순서: README → GUIDE의 "개념" → SAMPLE을 따라 실습 → 막히거나 궁금할 때 GUIDE의 해당 단계 참고
+> 💡 추천 학습 순서: README → GUIDE 개념·1~7단계로 앱 만들기 → SAMPLE로 앱 실행·확인 → (도전) GUIDE 8단계 + SAMPLE 8단계
 
 ## 사전 준비물
 
@@ -55,7 +55,7 @@ GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)**
 - [x] 가이드 — [GUIDE.md](GUIDE.md) 단계 목적·입력·산출물·체크리스트
 - [x] 규칙 — GUIDE.md 각 단계의 "규칙" 절 + [부록 A. CLAUDE.md 규칙 조각](GUIDE.md#부록-a-claudemd-규칙-조각)
 - [x] 자동화 — Spec Kit이 `.claude/skills/speckit-*` 로 설치하는 **Claude Code 스킬** 10종 (+ git 확장 스킬 5종)
-- [x] 샘플 — [SAMPLE.md](SAMPLE.md) 동작 스텝·프롬프트 (할 일 관리 앱 예제)
+- [x] 샘플 — [SAMPLE.md](SAMPLE.md) 완성 앱 실행·기능별 사용 시나리오·저장 데이터 확인·수정 요청 프롬프트
 
 ## 품질 기준
 

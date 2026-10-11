@@ -48,9 +48,9 @@
 | --- | --- | --- |
 | [README.md](README.md) | 모듈 소개, 목표, 준비물, 품질 기준 (지금 이 문서) | 가장 먼저 |
 | [GUIDE.md](GUIDE.md) | OpenSpec 개념 + 7단계별 **목적·입력·규칙·산출물·체크리스트** 상세 가이드 | 개념을 이해하며 단계별로 |
-| [SAMPLE.md](SAMPLE.md) | 예제 "할 일 관리 앱"을 **복사·붙여넣기만으로** 끝까지 실행하는 실습서 | 손으로 직접 따라 할 때 |
+| [SAMPLE.md](SAMPLE.md) | 완성한 "할 일 관리 앱"을 **실행·사용하고 명세대로 동작하는지 확인**하는 가이드 | GUIDE 6단계(apply) 이후 |
 
-> 💡 추천 학습 순서: README → GUIDE의 "개념" → SAMPLE을 따라 실습 → 막히거나 궁금할 때 GUIDE의 해당 단계 참고
+> 💡 추천 학습 순서: README → GUIDE 개념·1~6단계로 앱 만들기 → SAMPLE로 앱 실행·확인 → GUIDE 7단계(archive) → (도전) GUIDE 8단계 + SAMPLE 8단계
 
 ## 사전 준비물
 
@@ -70,7 +70,7 @@
 - [x] 가이드 — [GUIDE.md](GUIDE.md) 단계 목적·입력·산출물·체크리스트
 - [x] 규칙 — `openspec/config.yaml` 의 `context`·`rules` 예시 ([GUIDE.md 2단계](GUIDE.md#2-단계-프로젝트-맥락-설정-configyaml)) + [부록 A. CLAUDE.md 규칙 조각](GUIDE.md#부록-a-claudemd-규칙-조각)
 - [x] 자동화 — OpenSpec이 설치하는 Claude Code **슬래시 커맨드 6종**(`.claude/commands/opsx/`) + **스킬 6종**(`.claude/skills/openspec-*`)
-- [x] 샘플 — [SAMPLE.md](SAMPLE.md) 동작 스텝·프롬프트 (할 일 관리 앱 + 마감일 추가 변경)
+- [x] 샘플 — [SAMPLE.md](SAMPLE.md) 완성 앱 실행·기능별 사용 시나리오·데이터 확인·수정 요청 프롬프트
 
 ## 품질 기준
 
