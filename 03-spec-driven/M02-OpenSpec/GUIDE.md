@@ -197,19 +197,11 @@ rules:
 
 - 수정된 `openspec/config.yaml`
 
-AI가 실제로 받는 지시는 다음 명령으로 미리 볼 수 있다(변경을 하나 만든 뒤):
-
-```bash
-openspec instructions proposal --change add-todo-list
-# <project_context> … </project_context>, <rules> … </rules> 안에 내가 쓴 내용이 들어가 있으면 성공
-```
-
 ## 체크리스트
 
 - [ ] `config.yaml` 에 `schema: spec-driven`, `context:`, `rules:` 가 있다.
 - [ ] 언어 설정 3줄이 그대로 있다.
 - [ ] 기술 스택·구조·테스트·실행 방법·원칙이 적혀 있다.
-- [ ] (선택) 4단계 이후 `openspec instructions proposal --change add-todo-list` 출력에 내 context와 rules가 보인다.
 
 ---
 
