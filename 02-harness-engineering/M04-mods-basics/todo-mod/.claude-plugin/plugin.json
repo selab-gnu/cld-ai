@@ -1,0 +1,6 @@
+{
+  "name": "todo-mod",
+  "version": "0.1.0",
+  "description": "Todo 앱 작업을 돕는 첫 번째 mod",
+  "types": "./types/index.d.ts"
+}
