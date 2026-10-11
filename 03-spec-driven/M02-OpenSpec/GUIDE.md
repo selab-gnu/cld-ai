@@ -66,47 +66,6 @@ The system SHALL allow ... 사용자는 할 일에 마감일을 지정할 수 �
 > ⚠️ **터미널 명령 vs 채팅 명령을 구분하자.** (가장 흔한 실수)
 > `openspec ...` 은 **터미널**에서, `/opsx:...` 는 **Claude Code 채팅창**에서 입력한다.
 
-## 명령 한눈에 보기
-
-**Claude Code 슬래시 커맨드 (기본 `core` 프로필)**
-
-| 명령 | 하는 일 | 파일을 쓰나? |
-| --- | --- | --- |
-| `/opsx:explore [주제]` | 아이디어를 함께 생각하고 선택지를 비교 (선택) | 코드는 절대 안 씀. 요청할 때만 문서 작성 |
-| `/opsx:propose [이름 또는 설명]` | 변경 폴더를 만들고 proposal → specs → design → tasks 를 한 번에 생성 | ✔ 계획 문서 |
-| `/opsx:update [변경]` | 계획 문서를 수정하고 서로 일관되게 맞춤 (편집마다 확인 요청) | ✔ 계획 문서만 (코드 X) |
-| `/opsx:apply [변경]` | tasks.md 순서대로 구현하고 `[x]` 체크 | ✔ 코드 |
-| `/opsx:sync [변경]` | 델타 명세를 기준 명세에 미리 병합 (선택) | ✔ `openspec/specs/` |
-| `/opsx:archive [변경]` | 완료 확인 → 명세 병합 → `changes/archive/` 로 이동 | ✔ |
-
-**확장 명령 (선택)** — `openspec config profile` 로 켠 뒤 프로젝트에서 `openspec update`:
-`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`
-
-**자주 쓰는 터미널 명령**
-
-| 명령 | 하는 일 |
-| --- | --- |
-| `openspec list` / `openspec list --specs` | 진행 중인 변경 목록 / 기준 명세 목록 |
-| `openspec status --change <변경>` | 산출물 4종의 완료 상태 |
-| `openspec show <변경 또는 명세>` | 내용 보기 |
-| `openspec validate <변경> --strict` | 형식 검증 |
-| `openspec view` | 대화형 대시보드 |
-| `openspec archive <변경>` | 터미널에서 직접 보관 |
-
-## 이 가이드의 7단계
-
-| 단계 | 내용 | 사용하는 명령 |
-| --- | --- | --- |
-| 1 | 설치와 프로젝트 초기화 | `npm i -g`, `openspec init` |
-| 2 | 프로젝트 맥락 설정 | `openspec/config.yaml` 편집 |
-| 3 | 탐색: 아이디어 정리 (선택) | `/opsx:explore` |
-| 4 | 제안: 변경과 계획 문서 만들기 | `/opsx:propose` |
-| 5 | 검토와 수정 | `openspec status/show/validate`, `/opsx:update` |
-| 6 | 구현 | `/opsx:apply` |
-| 7 | 병합과 보관 | `/opsx:sync`(선택), `/opsx:archive` |
-
-> 📌 실습 예제: 모든 입력 예시는 M01과 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 복사해서 그대로 실행하는 버전은 [SAMPLE.md](SAMPLE.md) 에 있다.
-
 ---
 
 # 1 단계: 설치와 프로젝트 초기화
@@ -495,6 +454,47 @@ Change 'add-todo-list' archived as '2026-10-11-add-todo-list'.
 - [ ] `git add -A && git commit` 으로 명세·코드·이력을 함께 커밋했다.
 
 ---
+
+## 명령 한눈에 보기
+
+**Claude Code 슬래시 커맨드 (기본 `core` 프로필)**
+
+| 명령 | 하는 일 | 파일을 쓰나? |
+| --- | --- | --- |
+| `/opsx:explore [주제]` | 아이디어를 함께 생각하고 선택지를 비교 (선택) | 코드는 절대 안 씀. 요청할 때만 문서 작성 |
+| `/opsx:propose [이름 또는 설명]` | 변경 폴더를 만들고 proposal → specs → design → tasks 를 한 번에 생성 | ✔ 계획 문서 |
+| `/opsx:update [변경]` | 계획 문서를 수정하고 서로 일관되게 맞춤 (편집마다 확인 요청) | ✔ 계획 문서만 (코드 X) |
+| `/opsx:apply [변경]` | tasks.md 순서대로 구현하고 `[x]` 체크 | ✔ 코드 |
+| `/opsx:sync [변경]` | 델타 명세를 기준 명세에 미리 병합 (선택) | ✔ `openspec/specs/` |
+| `/opsx:archive [변경]` | 완료 확인 → 명세 병합 → `changes/archive/` 로 이동 | ✔ |
+
+**확장 명령 (선택)** — `openspec config profile` 로 켠 뒤 프로젝트에서 `openspec update`:
+`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`
+
+**자주 쓰는 터미널 명령**
+
+| 명령 | 하는 일 |
+| --- | --- |
+| `openspec list` / `openspec list --specs` | 진행 중인 변경 목록 / 기준 명세 목록 |
+| `openspec status --change <변경>` | 산출물 4종의 완료 상태 |
+| `openspec show <변경 또는 명세>` | 내용 보기 |
+| `openspec validate <변경> --strict` | 형식 검증 |
+| `openspec view` | 대화형 대시보드 |
+| `openspec archive <변경>` | 터미널에서 직접 보관 |
+
+## 이 가이드의 7단계
+
+| 단계 | 내용 | 사용하는 명령 |
+| --- | --- | --- |
+| 1 | 설치와 프로젝트 초기화 | `npm i -g`, `openspec init` |
+| 2 | 프로젝트 맥락 설정 | `openspec/config.yaml` 편집 |
+| 3 | 탐색: 아이디어 정리 (선택) | `/opsx:explore` |
+| 4 | 제안: 변경과 계획 문서 만들기 | `/opsx:propose` |
+| 5 | 검토와 수정 | `openspec status/show/validate`, `/opsx:update` |
+| 6 | 구현 | `/opsx:apply` |
+| 7 | 병합과 보관 | `/opsx:sync`(선택), `/opsx:archive` |
+
+> 📌 실습 예제: 모든 입력 예시는 M01과 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 복사해서 그대로 실행하는 버전은 [SAMPLE.md](SAMPLE.md) 에 있다.
 
 # 부록 A. CLAUDE.md 규칙 조각
 
