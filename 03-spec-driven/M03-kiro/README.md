@@ -97,7 +97,7 @@ Kiro는 2025년 프리뷰 이후 빠르게 바뀌었다. 인터넷의 예전 글
 
 | 예전 글에서 보이는 것 | 현재 문서 기준 |
 | --- | --- |
-| 채팅 시작 때 "Vibe / Spec" 중 고르기 | 채팅 창의 **Spec** 버튼 또는 Kiro 패널 Specs 의 **+** 로 Spec 시작 |
+| 채팅 시작 때 "Vibe / Spec" 중 고르기 | 왼쪽 Kiro 아이콘 → Kiro 패널 **SPECS** 의 **+** 로 Spec 시작 |
 | Spec이 항상 요구사항부터 시작 | Feature Spec 은 **Requirements-First / Design-First** 선택, 승인 없이 한 번에 만드는 **Quick Spec** 도 있음 |
 | 버그도 Feature Spec 으로 | **Bugfix Spec** (`bugfix.md`) 이 따로 있음 |
 | Hook 파일 `*.kiro.hook` | `.kiro/hooks/<이름>.json` (`"version": "v1"`) |
