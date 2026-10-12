@@ -1,11 +1,11 @@
-# 모듈 M01 — Spec Kit으로 시작하는 스펙 주도 개발(SDD)
+# 모듈 M03 — Spec Kit으로 하는 단계별 스펙 주도 개발(SDD)
 
 > 상태: 초안 · 담당: 이선아 교수
 > 검증 기준: `specify-cli` **v1.1.3** (2026-10-09 릴리스) · Claude Code 통합(`--integration claude`) · macOS/Linux
 
 ## 목적
 
-GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)** 을 사용해, "코드부터 짜는" 방식이 아니라 **"명세(Spec)를 먼저 쓰고, 명세가 코드를 만들게 하는"** 스펙 주도 개발(Spec-Driven Development, SDD) 흐름을 처음부터 끝까지 직접 따라 해 본다.
+GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)** 을 사용해, "코드부터 짜는" 방식이 아니라 **"명세(Spec)를 먼저 쓰고, 명세가 코드를 만들게 하는"** 스펙 주도 개발(Spec-Driven Development, SDD) 흐름을 처음부터 끝까지 직접 따라 해 본다. M01 Kiro, M02 OpenSpec에 이어 **가장 많은 단계로 꼼꼼하게 설계·검증하는** 도구를 경험하고, 마지막으로 세 도구를 비교해 언제 무엇을 쓸지 정리한다.
 
 이 모듈을 마치면 초보자도 다음을 할 수 있다.
 
@@ -26,6 +26,28 @@ GitHub의 오픈소스 도구 **[Spec Kit](https://github.com/github/spec-kit)**
 
 - **사람은 "무엇을, 왜"** 에 집중하고(명세), **AI는 "어떻게"** 를 계획·구현한다.
 - 모든 산출물은 Markdown 파일로 저장소에 남으므로, 코드 리뷰처럼 **명세를 리뷰**할 수 있다.
+
+## M01 Kiro · M02 OpenSpec과 무엇이 다른가?
+
+세 모듈은 모두 같은 "할 일 관리 웹 앱" 을 만들었다. 같은 일을 각 도구가 어떻게 부르고 처리하는지 순서대로 비교한다.
+
+| 비교 | M01 Kiro | M02 OpenSpec | M03 Spec Kit |
+| --- | --- | --- | --- |
+| 형태 | **IDE (데스크톱 앱)** | CLI + Claude Code | CLI + Claude Code |
+| 설치 | kiro.dev 에서 앱 다운로드 | `npm i -g @fission-ai/openspec` | `uv tool install specify-cli` |
+| AI | Kiro 내장 에이전트 | Claude Code | Claude Code |
+| 원칙·맥락 | Steering (`.kiro/steering/*.md`) | `config.yaml` context·rules | **`constitution.md`** (버전 관리되는 헌법) |
+| 작업 단위 | 기능(Spec) | 변경(change) | 기능(feature) |
+| 명세 위치 | `.kiro/specs/<기능>/` | `openspec/changes/<변경>/` → `openspec/specs/` | `specs/001-…/` |
+| 명세 문서 | requirements · design · tasks | proposal · 델타 spec · design · tasks | **spec · plan · research · data-model · contracts · quickstart · checklists · tasks** |
+| 요구사항 형식 | 사용자 스토리 + EARS (WHEN … SHALL …) | Requirement + Scenario (WHEN/THEN) | 사용자 스토리 + Given/When/Then, FR·SC 번호 |
+| 진행 방식 | 버튼 + 채팅 (단계별 승인) | 슬래시 명령 3~6개 | **슬래시 명령 9개** (clarify·checklist·analyze 품질 관문) |
+| 자동화 | Agent Hooks (`.kiro/hooks/*.json`) | — | 확장(git 등)의 hook |
+| 완료 확인 | 작업 상태 + Sync Files | `openspec validate --strict` | **`/speckit-converge` → Converged** |
+| 명세 변경 | 같은 Spec 수정 → Sync Files | 델타 명세 → archive 병합 | 새 기능 폴더(002-…) |
+| 잘 맞는 곳 | 처음 배울 때, IDE 안에서 한 번에 | 기존 시스템, 잦은 작은 변경 | 새 기능을 꼼꼼하게 설계·검증할 때 |
+
+> 정리: **Kiro**는 IDE에 녹아든 SDD(명세·규칙·자동화를 한 화면에서), **OpenSpec**은 가벼운 변경 관리와 항상 최신인 하나의 명세, **Spec Kit**은 가장 많은 단계와 품질 관문으로 하는 꼼꼼한 설계가 강점이다.
 
 ## 모듈 구성
 

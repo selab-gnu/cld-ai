@@ -28,19 +28,22 @@
                                  (진행 중인 변경)                     (시스템의 현재 동작 = 진실의 원천)
 ```
 
-## M01 Spec Kit과 무엇이 다른가?
+## M01 Kiro와 무엇이 다른가?
 
-| 비교 | M01 Spec Kit | M02 OpenSpec |
+| 비교 | M01 Kiro | M02 OpenSpec |
 | --- | --- | --- |
-| 설치 | Python `uv tool install specify-cli` | Node.js `npm install -g @fission-ai/openspec` |
-| 작업 단위 | 기능(feature) — `specs/001-…/` | 변경(change) — `openspec/changes/<이름>/` |
-| 명세의 수명 | 기능별 명세가 폴더마다 쌓임 | 변경이 끝나면 **기준 명세에 병합**되어 하나의 현재 명세 유지 |
-| 기존 코드에 적용 | 가능 | **브라운필드(기존 프로젝트)에 특히 강함** — 델타 명세로 변경분만 기술 |
-| 단계 수 | 많음 (constitution, specify, clarify, plan, tasks, analyze, implement, converge) | 적음 (propose, apply, archive + 선택 explore/update/sync) |
-| 원칙 문서 | `constitution.md` | `openspec/config.yaml` 의 `context` / `rules` |
-| Claude Code 명령 표기 | `/speckit-specify` (스킬) | `/opsx:propose` (슬래시 커맨드) |
+| 형태 | IDE (데스크톱 앱), 버튼 + 채팅 | **CLI + Claude Code**, 슬래시 명령 |
+| 설치 | kiro.dev 에서 앱 다운로드 | Node.js `npm install -g @fission-ai/openspec` |
+| AI | Kiro 내장 에이전트 | Claude Code |
+| 원칙·맥락 | Steering (`.kiro/steering/*.md`) | `openspec/config.yaml` 의 `context` / `rules` |
+| 작업 단위 | 기능(Spec) — `.kiro/specs/<기능>/` | **변경(change)** — `openspec/changes/<이름>/` |
+| 계획 문서 | requirements · design · tasks | **proposal** · 델타 specs · design · tasks |
+| 요구사항 형식 | 사용자 스토리 + EARS (WHEN … SHALL …) | Requirement + Scenario (WHEN/THEN), SHALL/MUST |
+| 진행 방식 | 단계마다 버튼으로 승인 (Generate Tech Design → Generate Task List) | `/opsx:propose` 한 번에 계획 문서 4종 생성 |
+| 명세 변경 | 같은 Spec 문서 수정 → Sync Files | **델타 명세**(ADDED/MODIFIED/REMOVED) → archive 때 기준 명세에 병합 |
+| 형식 검사 | Analyze Requirements (AI 점검) | `openspec validate --strict` (도구 검사) |
 
-> 정리: Spec Kit은 **"새 기능을 꼼꼼하게 설계"** 하는 데, OpenSpec은 **"변경을 가볍게 제안하고 명세를 최신으로 유지"** 하는 데 초점이 있다.
+> 정리: Kiro가 **IDE 안에서 단계별로 승인하며** 명세를 만들었다면, OpenSpec은 **터미널·Claude Code에서 변경 단위로 가볍게 제안하고, 끝나면 하나의 현재 명세에 합쳐** 시스템의 지금 모습을 문서로 유지한다. 세 도구 종합 비교는 [M03 Spec Kit README](../M03-spec-kit/README.md#m01-kiro--m02-openspec과-무엇이-다른가) 에 있다.
 
 ## 모듈 구성
 

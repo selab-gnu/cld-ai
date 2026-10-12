@@ -159,7 +159,7 @@ my-todo-openspec/
 
 # 2 단계: 프로젝트 맥락 설정 (config.yaml)
 
-**목적** — AI가 모든 산출물을 만들 때 참고할 **프로젝트 배경(context)** 과 **산출물별 규칙(rules)** 을 적는다. Spec Kit의 헌법(constitution)에 해당한다.
+**목적** — AI가 모든 산출물을 만들 때 참고할 **프로젝트 배경(context)** 과 **산출물별 규칙(rules)** 을 적는다. M01 Kiro의 스티어링(steering) 파일에 해당한다.
 
 **입력** — `openspec/config.yaml` 을 편집기로 열어 아래 내용으로 바꾼다. (또는 Claude Code에 "config.yaml을 아래 내용으로 바꿔 줘"라고 붙여 넣어도 된다.)
 
@@ -548,7 +548,7 @@ openspec/changes/archive/YYYY-MM-DD-add-due-date/
 | 7 | 병합과 보관 | `/opsx:sync`(선택), `/opsx:archive` |
 | 8 | (도전) 두 번째 변경으로 기존 명세 수정 | `/opsx:propose` → `apply` → `archive` |
 
-> 📌 실습 예제: 모든 입력 예시는 M01과 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
+> 📌 실습 예제: 모든 입력 예시는 M01 Kiro와 같은 **"할 일 관리 웹 앱"** 을 OpenSpec으로 만드는 경우를 기준으로 한다. 변경 이름은 `add-todo-list`, 기능(capability) 이름은 `todo-list` 로 고정해 경로가 문서와 똑같이 나오게 한다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
 
 # 부록 A. CLAUDE.md 규칙 조각
 

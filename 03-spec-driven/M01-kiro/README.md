@@ -1,11 +1,11 @@
-# 모듈 M03 — Kiro로 하는 IDE 안의 스펙 주도 개발
+# 모듈 M01 — Kiro로 하는 IDE 안의 스펙 주도 개발
 
 > 상태: 초안 · 담당: 이선아 교수
 > 기준 문서: [kiro.dev/docs](https://kiro.dev/docs/) (2026-10-07 갱신본) · Kiro IDE 1.x · macOS
 
 ## 목적
 
-AWS가 만든 AI 개발 환경 **[Kiro](https://kiro.dev)** 를 사용해, M01·M02에서 터미널 도구와 Claude Code로 했던 스펙 주도 개발(SDD)을 **IDE 화면 안에서 버튼과 채팅으로** 해 본다. Kiro는 명세(Spec), 프로젝트 규칙(Steering), 자동화(Hooks)를 IDE에 기본으로 넣어 두었기 때문에 따로 설치할 CLI나 명령어를 외울 필요가 없다.
+AWS가 만든 AI 개발 환경 **[Kiro](https://kiro.dev)** 를 사용해, **"명세를 먼저 쓰고 그 명세로 코드를 만드는"** 스펙 주도 개발(SDD)을 **IDE 화면 안에서 버튼과 채팅으로** 처음 경험해 본다. Kiro는 명세(Spec), 프로젝트 규칙(Steering), 자동화(Hooks)를 IDE에 기본으로 넣어 두었기 때문에 따로 설치할 CLI나 명령어를 외울 필요가 없어, 이 과정의 **첫 모듈**로 삼는다.
 
 이 모듈을 마치면 초보자도 다음을 할 수 있다.
 
@@ -31,22 +31,15 @@ AWS가 만든 AI 개발 환경 **[Kiro](https://kiro.dev)** 를 사용해, M01·
         결과물은 모두 프로젝트 안 .kiro/ 폴더에 Markdown·JSON 파일로 남는다
 ```
 
-## M01·M02와 무엇이 다른가?
+## 이 과정에서 M01의 위치
 
-| 비교 | M01 Spec Kit | M02 OpenSpec | M03 Kiro |
+| 순서 | 모듈 | 도구 형태 | 이 모듈에서 익히는 것 |
 | --- | --- | --- | --- |
-| 형태 | CLI + Claude Code | CLI + Claude Code | **IDE (데스크톱 앱)** |
-| 설치 | `uv tool install specify-cli` | `npm i -g @fission-ai/openspec` | kiro.dev 에서 앱 다운로드 |
-| AI | Claude Code | Claude Code | Kiro 내장 에이전트 |
-| 원칙·맥락 | `constitution.md` | `config.yaml` context·rules | **Steering** (`.kiro/steering/*.md`) |
-| 명세 위치 | `specs/001-…/` | `openspec/changes/<변경>/` → `openspec/specs/` | `.kiro/specs/<기능>/` |
-| 명세 문서 | spec · plan · tasks 외 다수 | proposal · 델타 spec · design · tasks | **requirements · design · tasks** |
-| 요구사항 형식 | 사용자 스토리 + Given/When/Then | Requirement + Scenario(WHEN/THEN) | 사용자 스토리 + **EARS**(WHEN … SHALL …) |
-| 진행 방식 | 슬래시 명령 9개 | 슬래시 명령 3~6개 | **버튼 + 채팅** (단계별 승인) |
-| 자동화 | 확장(hook) | — | **Agent Hooks** (`.kiro/hooks/*.json`) |
-| 명세 변경 | 새 기능 폴더(002) | 델타 명세 → archive 병합 | 같은 Spec 수정 → **Sync Files** |
+| **M01** | **Kiro (지금)** | IDE (데스크톱 앱) | SDD의 기본 순서: 규칙(Steering) → 요구사항 → 설계 → 작업 → 구현 |
+| M02 | OpenSpec | CLI + Claude Code | 같은 흐름을 터미널·Claude Code로, 변경(델타) 중심으로 |
+| M03 | Spec Kit | CLI + Claude Code | 더 많은 단계로 꼼꼼하게 설계·검증 + 세 도구 종합 비교 |
 
-> 정리: Spec Kit은 **꼼꼼한 설계**, OpenSpec은 **가벼운 변경 관리**, Kiro는 **IDE에 녹아든 SDD**(명세·규칙·자동화를 한 화면에서) 가 강점이다.
+> 세 모듈 모두 같은 **"할 일 관리 웹 앱"** 을 만든다. Kiro에서 익힌 개념(규칙 → 요구사항 → 설계 → 작업)이 M02·M03에서 어떤 이름과 방식으로 바뀌는지 비교하며 보면 좋다. 세 도구의 종합 비교표는 [M03 Spec Kit README](../M03-spec-kit/README.md#m01-kiro--m02-openspec과-무엇이-다른가) 에 있다.
 
 ## 모듈 구성
 

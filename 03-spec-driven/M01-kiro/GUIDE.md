@@ -7,11 +7,11 @@
 
 **Kiro** 는 "프로토타입에서 프로덕션까지" 를 내세우는 AI 개발 환경이다. VS Code와 비슷한 데스크톱 IDE 안에 AI 에이전트가 들어 있고, 스펙 주도 개발에 필요한 세 가지를 기본 기능으로 제공한다.
 
-| 기능 | 하는 일 | 저장 위치 | M01·M02에서 비슷한 것 |
-| --- | --- | --- | --- |
-| **Steering** (스티어링) | 프로젝트의 목적·기술·구조·규칙을 AI에게 항상 알려 줌 | `.kiro/steering/*.md` | constitution.md / config.yaml |
-| **Specs** (스펙) | 기능 하나를 요구사항 → 설계 → 작업으로 계획하고 실행 | `.kiro/specs/<기능>/` | specs/001-… / openspec/changes/ |
-| **Hooks** (에이전트 훅) | 파일 저장·작업 완료 같은 사건에 맞춰 자동으로 명령·프롬프트 실행 | `.kiro/hooks/*.json` | — |
+| 기능 | 하는 일 | 저장 위치 |
+| --- | --- | --- |
+| **Steering** (스티어링) | 프로젝트의 목적·기술·구조·규칙을 AI에게 항상 알려 줌 | `.kiro/steering/*.md` |
+| **Specs** (스펙) | 기능 하나를 요구사항 → 설계 → 작업으로 계획하고 실행 | `.kiro/specs/<기능>/` |
+| **Hooks** (에이전트 훅) | 파일 저장·작업 완료 같은 사건에 맞춰 자동으로 명령·프롬프트 실행 | `.kiro/hooks/*.json` |
 
 > 이 밖에 MCP(외부 도구 연결), Skills, Custom agents, Checkpoints 등이 있지만 이 모듈에서는 위 세 가지만 다룬다.
 
@@ -51,7 +51,7 @@ WHEN [어떤 일이 일어나면]  THE SYSTEM SHALL [시스템은 이렇게 해�
 | 빈 할 일은 막아야 한다 | WHEN 사용자가 공백만 입력하고 추가하면 THE SYSTEM SHALL 할 일을 추가하지 않고 안내 문구를 표시한다 |
 | 데이터가 남아야 한다 | WHEN 사용자가 페이지를 새로 고치면 THE SYSTEM SHALL 이전 할 일 목록과 완료 상태를 그대로 표시한다 |
 
-> M02 OpenSpec과 달리 Kiro는 형식 검사 도구가 따로 없다. 대신 **Analyze Requirements** 로 요구사항의 빈틈을 점검할 수 있다.
+> Kiro에는 요구사항 형식을 자동으로 검사하는 별도 도구는 없다. 대신 **Analyze Requirements** 로 요구사항의 빈틈을 점검할 수 있다.
 
 ## 화면 구성 — 어디를 누르나
 
@@ -94,7 +94,7 @@ WHEN [어떤 일이 일어나면]  THE SYSTEM SHALL [시스템은 이렇게 해�
 | 7 | Agent Hook — 저장하면 테스트 자동 실행 | Kiro 패널 › Agent Hooks |
 | 8 | (도전) 기존 Spec에 마감일 기능 추가 | `#spec:todo-list`, **Sync Files** |
 
-> 📌 실습 예제: M01·M02와 같은 **"할 일 관리 웹 앱"** 을 Kiro로 만든다. 프로젝트 폴더는 `my-todo-kiro`, Spec 이름은 `todo-list` 로 맞춘다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
+> 📌 실습 예제: **"할 일 관리 웹 앱"** 을 Kiro로 만든다. (M02 OpenSpec, M03 Spec Kit 에서도 같은 앱을 만들어 도구를 비교한다) 프로젝트 폴더는 `my-todo-kiro`, Spec 이름은 `todo-list` 로 맞춘다. 완성된 앱을 실행·사용·확인하는 방법은 [SAMPLE.md](SAMPLE.md) 에 있다.
 
 ---
 
@@ -182,7 +182,7 @@ my-todo-kiro/
 
 # 2 단계: 스티어링(Steering) — 프로젝트 규칙 알려 주기
 
-**목적** — AI가 모든 대화와 Spec에서 참고할 **제품 목적(product)·기술 스택(tech)·폴더 구조(structure)** 를 파일로 적는다. M01의 헌법, M02의 config.yaml 에 해당한다.
+**목적** — AI가 모든 대화와 Spec에서 참고할 **제품 목적(product)·기술 스택(tech)·폴더 구조(structure)** 를 파일로 적는다.
 
 **입력** — 두 가지 방법 중 하나
 
@@ -676,7 +676,7 @@ src/todo.js 의 countActive 함수 위에 "진행 중인 할 일의 개수를 �
 
 # 8 단계: (도전) 기존 Spec에 마감일 기능 추가
 
-**목적** — 이미 완성된 Spec을 **고쳐서** 기능을 늘린다. M02 OpenSpec이 델타 명세를 따로 만들었던 것과 달리, Kiro는 **같은 Spec 문서를 갱신하고 Sync Files 로 작업을 맞추는** 방식이다.
+**목적** — 이미 완성된 Spec을 **고쳐서** 기능을 늘린다. Kiro는 **같은 Spec 문서를 갱신하고 Sync Files 로 작업을 맞추는** 방식이다. (M02 OpenSpec에서는 같은 일을 "바뀌는 부분만 적는 델타 명세"로 하는 방법을 배운다)
 
 **입력** — 순서대로
 
