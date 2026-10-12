@@ -1,0 +1,65 @@
+# 할 일 앱 CI — 코드가 올라올 때마다 문법 검사와 단위 테스트를 자동으로 실행한다.
+name: CI
+
+on:
+  push:
+    branches: [main]        # main 에 push 될 때
+  pull_request:             # PR 이 열리거나 새 커밋이 올라올 때
+  workflow_dispatch:        # Actions 탭에서 손으로 실행할 때
+
+permissions:
+  contents: read            # 코드 읽기 권한만 준다 (최소 권한)
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true  # 같은 브랜치에 새 커밋이 오면 이전 실행은 취소
+
+jobs:
+  test:
+    name: test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false      # 한 버전이 실패해도 다른 버전 결과까지 본다
+      matrix:
+        node: [22, 24]
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v7
+
+      - name: Node.js ${{ matrix.node }} 설치
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 버전 확인
+        run: node --version
+
+      - name: 문법 검사
+        run: |
+          for f in src/*.js tests/*.js; do
+            echo "검사: $f"
+            node --check "$f"
+          done
+
+      - name: 단위 테스트
+        run: |
+          node --test \
+            --test-reporter=spec --test-reporter-destination=stdout \
+            --test-reporter=junit --test-reporter-destination=test-results.xml
+
+      - name: 결과 요약
+        if: always()
+        run: |
+          total=$(grep -c '<testcase' test-results.xml || true)
+          failed=$(grep -c '<failure' test-results.xml || true)
+          echo "### Node ${{ matrix.node }} — 테스트 ${total}개, 실패 ${failed}개" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 테스트 결과 파일 올리기
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-node${{ matrix.node }}
+          path: test-results.xml
+          retention-days: 7

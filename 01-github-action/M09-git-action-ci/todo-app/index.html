@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>할 일 목록</title>
+    <!-- 브라우저가 favicon.ico를 따로 요청하지 않게 한다 -->
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="src/style.css">
+  </head>
+  <body>
+    <main>
+      <h1>할 일 목록</h1>
+
+      <form id="add-form">
+        <label for="new-todo">새 할 일</label>
+        <div class="add-row">
+          <input type="text" id="new-todo" autocomplete="off" aria-describedby="char-count message">
+          <button type="submit">추가</button>
+        </div>
+      </form>
+      <p id="char-count">0/200</p>
+      <p id="message" role="status"></p>
+      <p id="storage-notice" role="status"></p>
+
+      <fieldset id="filters">
+        <legend>보기</legend>
+        <input type="radio" name="filter" value="all" id="filter-all" checked>
+        <label for="filter-all">전체</label>
+        <input type="radio" name="filter" value="active" id="filter-active">
+        <label for="filter-active">진행 중</label>
+        <input type="radio" name="filter" value="completed" id="filter-completed">
+        <label for="filter-completed">완료</label>
+      </fieldset>
+
+      <p id="remaining" role="status"></p>
+      <ul id="todo-list"></ul>
+      <p id="empty-state"></p>
+    </main>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
