@@ -11,6 +11,8 @@
 | 🌐 **브라우저** | Chrome / Safari 등 |
 | 🤖 **Claude Code** | 문제가 있을 때 수정 요청 |
 
+> 💡 [GUIDE-codex.md](GUIDE-codex.md) 로 **Codex** 를 써서 만들었다면, 폴더 이름을 `my-todo-codex` 로 바꿔 읽고, 🤖 **Claude Code** 대신 Codex에서 `/speckit-…` 를 **`$speckit-…`** 로 입력한다. (`/clear` → `/new`)
+
 > 📝 이 문서의 화면 문구·메시지·테스트 개수는 실제로 Spec Kit으로 만든 `my-todo` 앱에서 확인한 값이다. AI가 만드는 코드는 실행할 때마다 조금씩 달라지므로, **문구가 달라도 같은 기능이 동작하면 통과**로 본다.
 
 > 💡 Spec Kit은 plan 단계에서 `specs/001-todo-list-app/quickstart.md` 라는 **검증 시나리오 문서**를 만들어 준다. 이 문서는 그 내용을 초보자가 따라 하기 쉽게 풀어 쓴 것이다. 내 앱의 quickstart.md 도 함께 열어 두고 비교해 보자.

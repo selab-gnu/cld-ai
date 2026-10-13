@@ -1,3 +1,5 @@
+> 🪟 **Windows PC** 라면 [GUIDE-windows.md](GUIDE-windows.md) 를, **Codex** 를 쓴다면 [GUIDE-codex.md](GUIDE-codex.md) (Windows: [GUIDE-codex-windows.md](GUIDE-codex-windows.md)) 를 따른다.
+
 # 개념
 
 ## 스펙 주도 개발(SDD)이란?
