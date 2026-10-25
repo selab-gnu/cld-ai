@@ -264,7 +264,11 @@ GSD가 아래 순서로 묻는다. 화면의 선택지는 영어로 나오며, �
 
 ### 3-2. 워크플로 설정 (Workflow Preferences)
 
-선택지가 하나씩 나온다. 이 실습의 권장 선택:
+질문은 **한 화면에 최대 4개씩 묶여** 나온다. 묶음 하나에 모두 답하면 다음 묶음이 나온다. 묶음을 나누는 것은 GSD를 실행하는 AI이므로 순서나 묶음 경계가 화면마다 조금 다를 수 있다 — 표의 **header** 이름(선택지 위의 작은 라벨)으로 찾아 답한다.
+
+> 💡 `~/.gsd/defaults.json` (이전에 저장한 기본값)이 있으면 먼저 **Defaults** 질문이 나온다. 이 실습에서는 **Configure fresh** 를 골라 아래 질문을 모두 직접 답한다.
+
+#### ① 기본 작업 방식
 
 | 질문 (header) | 고를 것 | 이유 |
 | --- | --- | --- |
@@ -273,10 +277,53 @@ GSD가 아래 순서로 묻는다. 화면의 선택지는 영어로 나오며, �
 | **Execution** | Parallel (Recommended) | 독립 작업은 동시에 |
 | **Git Tracking** | Yes (Recommended) | `.planning/` 문서도 git 이력에 남김 |
 | **Research** | **No** | 할 일 앱은 잘 알려진 영역 → 토큰·시간 절약 |
-| **Plan Check** | Yes (Recommended) | 계획이 목표를 달성하는지 검사 |
+
+> Mode 는 따로 먼저 나오고, 이어서 Granularity · Execution · Git Tracking · Research 4개가 한 묶음으로 나오는 경우가 많다.
+
+#### ② 품질 검사 에이전트
+
+계획·실행 전후에 추가 에이전트를 돌릴지 정한다. 토큰과 시간이 더 들지만 품질이 올라간다.
+
+| 질문 (header) | 고를 것 | 이유 |
+| --- | --- | --- |
+| **Plan Check** | Yes (Recommended) | 계획이 목표를 달성하는지 실행 전에 검사 |
 | **Verifier** | Yes (Recommended) | 실행 후 요구사항 충족 자동 검증 |
-| **Compact Content** | No (Recommended) | 처음에는 자세한 지시 유지 |
-| **Model Tier** | Balanced (요금이 걱정되면 Budget) | Adaptive 가 디폴트이기 때문에 이를 선택해도 됨|
+| **Compact Content** | No (Recommended) | 처음에는 자세한 지시 유지 (Yes 는 지시문을 줄여 컨텍스트 절약) |
+
+#### ③ AI 모델 — 두 번에 나눠 묻는다
+
+선택지가 5개(Adaptive·Quality·Balanced·Budget·Inherit)라서 먼저 **AI Models** 로 큰 방향을 고르고, **Standard tier…** 를 골랐을 때만 **Model Tier** 가 이어서 나온다.
+
+| 질문 (header) | 고를 것 | 이유 |
+| --- | --- | --- |
+| **AI Models** | **Standard tier…** | 정해진 등급을 모든 에이전트에 똑같이 적용 |
+| **Model Tier** (조건부) | **Balanced** (요금이 걱정되면 Budget) | 기획은 Opus, 리서치·실행·검증은 Sonnet |
+
+| AI Models 선택지 | 뜻 | Model Tier 질문 |
+| --- | --- | --- |
+| Adaptive (Recommended) | 무거운 역할은 상위 모델, 가벼운 역할은 저렴한 모델을 자동 배정 | 나오지 않음 |
+| Standard tier… | Quality / Balanced / Budget 중 하나를 모든 에이전트에 적용 | **나옴** |
+| Inherit | 지금 세션의 모델을 모든 에이전트가 그대로 사용 (Claude 외 런타임용) | 나오지 않음 |
+
+> 도구의 기본 권장은 **Adaptive** 다. 이것을 골라도 실습에 문제가 없으며, 이 경우 Model Tier 질문은 건너뛰고 바로 ④로 간다.
+
+#### ④ PR 본문 구성 (PR Body) — 여러 개 선택 가능
+
+`/gsd-ship` (8단계, 선택)이 PR을 만들 때 **기본 본문 뒤에 덧붙일 섹션**을 고른다. 기본 섹션(요약·변경 사항·검증 결과 등)은 항상 들어가며 여기서 고르는 것은 추가분이다. **복수 선택**이므로 원하는 항목을 모두 체크한 뒤 제출한다.
+
+| 선택지 | PR 본문에 덧붙는 내용 | 가져오는 곳 | 이 실습 |
+| --- | --- | --- | --- |
+| **User Stories & Acceptance Criteria** | 사용자 스토리와 인수 기준 | `REQUIREMENTS.md` | ✅ 선택 |
+| **Success Metrics & Release Criteria** | 완료 정의(DoD)와 출시 기준 | `REQUIREMENTS.md`, `VERIFICATION.md` | ✅ 선택 |
+| Risks & Dependencies | 배포 위험·의존성·롤백 메모 | `PLAN.md` | 선택 안 함 |
+| Stakeholder Review & Approval | 승인 체크리스트 (결재가 필요한 팀용) | 템플릿 | 선택 안 함 |
+
+- 혼자 만드는 작은 앱이므로 **"무엇을 만들었고 어떻게 확인했는지"** 가 드러나는 두 개만 고른다. 위험·승인 섹션은 팀 프로젝트에서 쓴다.
+- 고르지 않은 섹션도 `config.json` 의 `ship.pr_body_sections` 에 `"enabled": false` 로 기록된다. 나중에 `true` 로 바꾸면 켜진다.
+- 아무것도 고르지 않아도 된다. 그러면 PR 본문은 기본 섹션만으로 만들어진다.
+- 원본 문서에 해당 내용(예: `## User Stories`)이 없으면 GSD가 기본 문구로 채운다.
+
+#### ⑤ 리서치 재확인
 
 이어서 리서치 여부를 다시 물으면 **Skip research** 를 고른다.
 
@@ -325,7 +372,7 @@ git add .planning/config.json && git commit -m "chore: GSD 응답 언어 한국�
 ├── REQUIREMENTS.md     ← REQ-ID (예: TODO-01) 가 붙은 v1 / v2 / Out of scope
 ├── ROADMAP.md          ← Phase 1, 2 … 각 단계의 Goal·Requirements·Success Criteria
 ├── STATE.md
-└── config.json         ← mode, granularity, workflow.research … , response_language
+└── config.json         ← mode, granularity, workflow.research … , model_profile, ship.pr_body_sections, response_language
 ```
 
 ## 체크리스트
@@ -335,6 +382,8 @@ git add .planning/config.json && git commit -m "chore: GSD 응답 언어 한국�
 - [ ] `REQUIREMENTS.md` 의 Out of scope 에 로그인·여러 사용자·마감일이 있다.
 - [ ] `ROADMAP.md` 의 단계마다 성공 기준(Success Criteria)이 있다.
 - [ ] `config.json` 에 `"response_language": "ko"` 가 있다.
+- [ ] `config.json` 의 `model_profile` 이 고른 값(`balanced` 또는 `adaptive` 등)이다.
+- [ ] `config.json` 의 `ship.pr_body_sections` 에서 3-2 ④에서 고른 섹션만 `"enabled": true` 다.
 - [ ] `git log --oneline` 에 GSD가 만든 문서 커밋이 보인다.
 
 ---
@@ -606,6 +655,8 @@ GSD가 단계의 성공 기준을 하나씩 질문한다. 🌐 브라우저에�
    /gsd-ship 1
    ```
 
+   PR 본문은 기본 섹션 뒤에 3-2 ④에서 고른 섹션(예: User Stories & Acceptance Criteria, Success Metrics & Release Criteria)이 덧붙어 만들어진다.
+
 ## 규칙
 
 - 단계 사이, 명령 사이마다 `/clear` 를 잊지 않는다.
@@ -695,7 +746,8 @@ GSD가 단계의 성공 기준을 하나씩 질문한다. 🌐 브라우저에�
 | 중간에 끊겼다 / 어디까지 했는지 모르겠다 | `/gsd-progress` 로 현재 위치와 다음 할 일을 확인 |
 | 화면이 비어 있다 | `file://` 대신 `python3 -m http.server 8000`. 그래도 비면 `/gsd-debug` 에 증상과 콘솔 오류 전달 |
 | `/gsd-ship` 이 실패한다 | GitHub 원격 저장소와 `gh auth login` 이 필요. 실습에서는 생략 가능 |
-| 사용량 한도에 금방 닿는다 | `/gsd-settings` 에서 Research·Plan Check 를 끄거나 Model Tier 를 Budget 으로 |
+| 사용량 한도에 금방 닿는다 | `/gsd-settings` 에서 Research·Plan Check 를 끄거나, AI Models → Standard tier… → Model Tier 를 Budget 으로 |
+| PR 본문 섹션을 바꾸고 싶다 | `.planning/config.json` 의 `ship.pr_body_sections` 에서 원하는 항목의 `"enabled"` 를 `true` / `false` 로 바꾼다 |
 
 # 부록 C. 용어 정리
 
