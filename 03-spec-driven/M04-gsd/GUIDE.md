@@ -276,7 +276,7 @@ GSD가 아래 순서로 묻는다. 화면의 선택지는 영어로 나오며, �
 | **Plan Check** | Yes (Recommended) | 계획이 목표를 달성하는지 검사 |
 | **Verifier** | Yes (Recommended) | 실행 후 요구사항 충족 자동 검증 |
 | **Compact Content** | No (Recommended) | 처음에는 자세한 지시 유지 |
-| **Model Tier** | Balanced (요금이 걱정되면 Budget) | |
+| **Model Tier** | Balanced (요금이 걱정되면 Budget) | Adaptive 가 디폴트이기 때문에 이를 선택해도 됨|
 
 이어서 리서치 여부를 다시 물으면 **Skip research** 를 고른다.
 
