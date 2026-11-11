@@ -1,0 +1,8 @@
+# OpenAPI 검사 설정 (npm run docs:api:lint)
+extends:
+  - recommended
+rules:
+  # 로컬에서 실행하는 실습용 앱이라 서버 주소로 localhost를 쓴다.
+  no-server-example.com: off
+  # GET /todos처럼 실패할 일이 없는 조회 작업에는 4xx 응답이 없다.
+  operation-4xx-response: off

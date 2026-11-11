@@ -1,0 +1,13 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "문서화 실습용 할 일 관리 앱 (CLI + HTTP API)",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "node src/server.js",
+    "docs:check": "node scripts/check-docs.mjs",
+    "docs:api:lint": "npx --yes @redocly/cli@2 lint docs/api/openapi.yaml",
+    "docs:api:build": "npx --yes @redocly/cli@2 build-docs docs/api/openapi.yaml -o docs/api/index.html"
+  }
+}

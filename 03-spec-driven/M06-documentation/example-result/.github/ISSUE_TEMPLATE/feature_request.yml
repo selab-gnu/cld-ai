@@ -1,0 +1,33 @@
+name: 기능 요청
+description: 새 기능이나 개선을 제안해 주세요.
+title: "[기능] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 해결하고 싶은 문제
+      description: 지금 무엇이 불편한지, 누가 어떤 상황에서 겪는지 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안하는 요구사항
+      description: "EARS 문형으로 적어 주세요. 예: 사용자가 번호를 지정해 삭제하면, 시스템은 그 할 일을 목록에서 지워야 한다."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 인수 조건
+      description: 완료되었다고 판단할 수 있는 확인 항목을 적어 주세요.
+      placeholder: |
+        - [ ] CLI에서 `remove 번호`로 삭제할 수 있다
+        - [ ] 없는 번호를 삭제하면 오류가 난다
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 고려한 다른 방법 (선택)

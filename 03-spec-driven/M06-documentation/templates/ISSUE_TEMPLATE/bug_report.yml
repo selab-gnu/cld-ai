@@ -1,0 +1,73 @@
+name: 버그 보고
+description: 예상과 다르게 동작하는 문제를 알려 주세요.
+title: "[버그] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        직접 재현한 절차와 실제 출력을 적어 주세요. 사람과 AI 에이전트 모두 이 내용만 보고 문제를 재현할 수 있어야 합니다.
+  - type: dropdown
+    id: area
+    attributes:
+      label: 영역
+      options:
+        - CLI
+        - HTTP API
+        - 저장
+        - 문서
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 심각도
+      options:
+        - 치명 (데이터 손실, 실행 불가)
+        - 높음 (주요 기능 오동작)
+        - 보통 (우회 방법 있음)
+        - 낮음 (메시지, 표시 문제)
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 절차
+      description: 처음 상태부터 문제가 보일 때까지 실행한 명령을 순서대로 적어 주세요.
+      placeholder: |
+        1. TODO_FILE=bug-demo.json node src/cli.js add 우유 사기
+        2. TODO_FILE=bug-demo.json node src/cli.js done abc
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 결과
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 실제 결과
+      description: 출력을 그대로 붙여 주세요.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 환경
+      placeholder: "macOS 15 / Node.js 22.22.0 / 커밋 a1b2c3d"
+    validations:
+      required: true
+  - type: input
+    id: requirement
+    attributes:
+      label: 관련 요구사항
+      description: docs/requirements.md의 ID. 해당하는 요구사항이 없으면 "없음"이라고 적어 주세요.
+      placeholder: REQ-003
+  - type: textarea
+    id: cause
+    attributes:
+      label: 원인 추정 (선택)
+      description: 코드를 읽고 짐작한 원인이 있으면 근거 파일과 줄 번호와 함께 적어 주세요.
