@@ -55,6 +55,7 @@ M06-documentation/
 ├── README.md            ← 이 문서 (개념)
 ├── GUIDE.md             ← 단계별 실습 안내 (0~7단계)
 ├── SAMPLE.md            ← 프롬프트 모음과 기대 결과 예시
+├── M06-documentation-lecture.pptx ← 강의 자료 (Part 1 개념 → Part 2 실습, 27장)
 ├── CLAUDE.md            ← 문서화 규칙 (실습 저장소에 복사)
 ├── skills/              ← 문서 종류별 Claude Code 스킬 7종 (실습 저장소의 .claude/skills/로 복사)
 ├── templates/
